@@ -61,7 +61,7 @@ Tasks: 156, 739 thr;
 
 ----
 
-## Talker와 Listener의 자원 사용량 살펴보기 
+## Talker와 Listener
 
 ```
 ros2 run demo_nodes_cpp talker
@@ -87,6 +87,26 @@ Talker의 경우 cpu와 mem 사용량이 0.0%로 찍히며 가끔 cpu 가 0.7%�
 Listener의 경우 mem이 0.1%fmf Wlrrh dlTek. 
 
 0.0%는 값이 너무 작아서 반올림된 결과값이므로 mem%말고 RES를 한번 확인해보자. 
+
+
+만약 특정 코어에게만 일을 할당하고 싶다면 아래의 명령어 사용 
+```
+taskset -c 7 ros2 run demo_nodes_cpp talker
+```
+
+특정 코어에 더 많은 부하를 주고 싶어서 간단한 코드 작성 후 실행 
+'''
+#nav2_ws/fast_talk 실행
+#데이터 크기를 키울 수록 부하 커짐 
+taskset -c 7 python3 fast_talker.py
+'''
+그 결과 다른 코어의 점유율이 0~1%일때 코어 7은 혼자 4% 점유율을 보이고 있었음 
+msg.data = 'A'*5000 일 때에는 점유율이 4%였지만 
+100,000으로 올리니 점유율 혼자 60%찍는 코어7
+
+![image](../assets/Fast_serial_initial_send.png)
+사진에서는 70%을 넘겼는데 이건 캡쳐한 순간에 생긴 오버헤드임
+
 
 
 
@@ -139,6 +159,9 @@ ros2 topic bw /image Subscribed to [/image]
 
 즉, 현재 cam2image 노드는 초당 약 30장의 이미지를 쉴 새 없이 찍어서 보내고 있다.
 
+또 CPU점유율을 내림차순 정렬한 결과 /usr/bin/gnome-shell이 상위권을 모두 차지하고 있는 것을 보아 이미지 통신 그 자체보다는 화면에 랜더링해서 보여주는게 더 오버헤드가 크다는 것을 알 수 있다. 
+
+
 ----
 제미나이에게 물어본 해설 
 
@@ -152,3 +175,6 @@ ros2 topic bw /image Subscribed to [/image]
 
     DDS 오버헤드: ROS2의 통신 미들웨어(DDS)는 이 7MB/s의 데이터를 유실 없이 보내기 위해 내부적으로 스레드를 바쁘게 돌립니다. 32개의 코어 중 특정 코어들이 이 통신을 처리하느라 점유율이 올라갔을 것입니다.
 ----
+
+
+## 

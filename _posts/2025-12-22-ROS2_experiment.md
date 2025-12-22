@@ -184,6 +184,7 @@ ros2 topic bw /image Subscribed to [/image]
 
 랜더링할때 부하가 많이 걸리니 현재 모니터 1대의 절반만 차지하도록 창을 켜두자. 
 gazebo 창 커지면 부하 커짐 
+   창이 작을 때: 그래픽 카드가 그려야 할 픽셀 수가 적고, CPU가 GPU에게 "이거 그려줘"라고 명령(Draw Call)을 내리는 횟수나 관리 부하가 줄어듭니다.
 
 |터틀봇 대수 |:-:|코어 할당량 평균(일단 눈대중으로)| tasks | thr |
 |1대|:-:|20% 후반 | 183| 1532 |
@@ -194,5 +195,10 @@ gazebo 창 커지면 부하 커짐
 
 ```
 ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+ros2 launch turtlebot3_gazebo multi_robot.launch.py
+# 여기서 코드 수정 
 ```
+
+로봇 대수가 많아질 수록 task와 thread가 많아지지만 코어 점유율에는 큰 변화가 있지는 않다. 
+
 

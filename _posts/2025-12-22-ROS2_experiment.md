@@ -18,7 +18,7 @@ htop
 
 
 ## 아무것도 실행하지 않았을 때의 모습 
-![alt text](nothing_exe.png)
+![image](../assets/nothing_exe.png)
 Linux OS 자체가 기본적으로 점유하고 있는 자원
 
 1. CPU 영역 
@@ -47,7 +47,7 @@ ros2는 통신을 위해 기본적으로 스레드를 많이 생성하므로 thr
 다시 test 진행
 이번에는 위의 실험환경대로 세팅 후 진행 
 아무것도 실행을 하지 않고 vscode와 terminaotr 화면 3개를 띄우고 있을 때 코어는 다음과 같은 모습을 보였음 
-![alt text][nothing2_exe]
+
 ![image](../assets/nothing2_exe.png)
 
 
@@ -67,10 +67,9 @@ ros2 run demo_nodes_cpp talker
 ros2 run demo_nodes_py listener
 ```
 
-case. talker 
+case.talker 
 
-
-![alt text](talker.png)
+![image](../assets/talker.png)
 
 해설 
 1. CPU 영역 
@@ -81,15 +80,12 @@ case. talker
    1. Mem
 
 case. listener 
-![alt text](listener.png)
+![image](../assets/listener.png)
 
 Talker의 경우 cpu와 mem 사용량이 0.0%로 찍히며 가끔 cpu 가 0.7%를 찍는다. 
 Listener의 경우 mem이 0.1%fmf Wlrrh dlTek. 
 
 0.0%는 값이 너무 작아서 반올림된 결과값이므로 mem%말고 RES를 한번 확인해보자. 
-
-[nothing_exe]: image.png
-
 
 
 ![alt text](image.png)

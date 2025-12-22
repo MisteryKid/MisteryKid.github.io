@@ -7,3 +7,11 @@ layout: post
 ---
 
 This is an contact page.
+
+Hello!
+
+My nickname is MisteryKid
+
+Nice to meet you
+
+

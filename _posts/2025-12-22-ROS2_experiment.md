@@ -48,6 +48,7 @@ ros2는 통신을 위해 기본적으로 스레드를 많이 생성하므로 thr
 이번에는 위의 실험환경대로 세팅 후 진행 
 아무것도 실행을 하지 않고 vscode와 terminaotr 화면 3개를 띄우고 있을 때 코어는 다음과 같은 모습을 보였음 
 ![alt text][nothing2_exe]
+/home/kimchaewon/MisteryKid.github.io/assets/nothing2_exe.png
 cpu core 사용량이 1%에 근접중임
 메모리 사용량은 3.17G/62.6G
 

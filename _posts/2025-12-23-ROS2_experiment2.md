@@ -76,9 +76,6 @@ ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 
 ```
 
-
-
-
 **가제보를 control+c가 아니라 x창 눌러서 끄면 노드가 제대로 종료되지 않고 남을 수도 있음**
 
 그럴때 pkill 명령어로 다 죽이자. 
@@ -92,3 +89,9 @@ pkill -9 -f gazebo; pkill -9 -f rcl; pkill -9 -f ruby; pkill -9 -f ros2; pkill -
 SLAM은 Simultanious and Localization 
 
 1. Cartographer
+
+```
+ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
+rviz2
+
+```

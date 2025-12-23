@@ -68,10 +68,6 @@ Nav2를 1대 돌릴때에는 행렬 연산보다 랜더링 부하가 더 크게 
 반면 Gazebo는 모니터 화면에 그래픽을 띄우는 I/O연산을 진행하므로 더 많은 자원을 소모
 
 
-
-
-
-
 **테스트하기에 지도가 너무 작음, 다른 지도를 불러와보자.**
 
 
@@ -90,7 +86,6 @@ ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 ```
 pkill -9 -f gazebo; pkill -9 -f rcl; pkill -9 -f ruby; pkill -9 -f ros2; pkill -9 -f _node
 ```
-
 
 # SLAM
 

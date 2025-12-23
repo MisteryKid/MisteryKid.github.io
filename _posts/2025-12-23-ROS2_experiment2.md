@@ -73,9 +73,10 @@ Nav2를 1대 돌릴때에는 행렬 연산보다 랜더링 부하가 더 크게 
 **테스트하기에 지도가 너무 작음, 다른 지도를 불러와보자.**
 
 
+```
+ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 
-
-
+```
 
 
 

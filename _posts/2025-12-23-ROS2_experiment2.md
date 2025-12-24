@@ -90,8 +90,18 @@ SLAM은 Simultanious and Localization
 
 1. Cartographer
 
+각 창에 하나씩 띄워주기 (총 4개)
 ```
 ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py
 rviz2
-
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True
+ros2 run turtlebot3_teleop teleop_keyboard
 ```
+
+rviz2 설정 
+1. add LaserScanner
+   1. Reliability Policy : Best Effort
+   2. Durability Policy : Volatile
+2. TF 추가 : 로봇 위치 표시용 
+3. Map 추가 : topic = /map
+4. 

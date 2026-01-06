@@ -62,6 +62,9 @@ ordered_collections:
   - pages
   - others
 
+toc:
+  enabled: true
+
 page_width: 800px
 
 destination:      ./_site

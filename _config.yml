@@ -76,6 +76,6 @@ plugins:
   - jekyll-readme-index
   - jemoji
 
-my_categories: []
+# my_categories: []
 
 

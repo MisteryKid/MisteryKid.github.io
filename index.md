@@ -4,6 +4,16 @@ title: MisteryKid의 블로그
 subtitle: 지킬로 만드는 나의 첫 개발 블로그
 ---
 
+<div style="display: flex; align-items: center; background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+  <img src="https://github.com/misterykid.png" style="width: 80px; border-radius: 50%; margin-right: 20px;">
+  <div>
+    <h2 style="margin: 0;">Chaewon Kim</h2>
+    <p style="margin: 5px 0; color: #666;">ROS2 & Real-time Systems Research</p>
+    <small>📧 contact@email.com | 🐙 <a href="https://github.com/misterykid">GitHub</a></small>
+  </div>
+</div>
+
+
 ### 안녕하세요! 👋
 이곳은 저의 study 기록을 담는 공간입니다.
 
@@ -21,3 +31,10 @@ subtitle: 지킬로 만드는 나의 첫 개발 블로그
 {% for post in site.posts limit:5 %}
 * [{{ post.title }}]({{ post.url | relative_url }}) - {{ post.date | date: "%Y-%m-%d" }}
 {% endfor %}
+
+
+### 🛠 Tech Stack
+![ROS2](https://img.shields.io/badge/ros2-%2322314E.svg?style=for-the-badge&logo=ros&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+

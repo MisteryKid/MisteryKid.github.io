@@ -1,4 +1,89 @@
+
 <div class="book-summary">
+    <script type="text/javascript">
+        function pageScrollToTop(element) {
+            $('div.body-inner').animate({scrollTop: 0});
+            $(element).parent().find('li>ul>li').removeClass('active');
+            return true;
+        }
+        function mobilePageScrollToAnchor(element) {
+            $(element).closest('li.chapter').find('ul>li').removeClass('active');
+            $(element).parent().addClass('active');
+            if ($(document).width() <= 1240) {
+                let target = $($(element).attr('href'));
+                if (target.length) {
+                    $('div.body-inner').animate({
+                        scrollTop: target.get(0).offsetTop,
+                    });
+                }
+            }
+            return true;
+        }
+    </script>
+
+    <nav role="navigation">
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search" />
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="{{site.baseurl}}/assets/search.html">Click to Search</a>
+        </div>
+
+        <ul class="summary">
+            <li class="chapter {% if page.url == '/index.html' or page.url == '/' %}active{% endif %}" data-level="1.1">
+                <a href="{{site.baseurl}}/" onclick="pageScrollToTop(this)">
+                    🏠 {{ site.title | escape }}
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            {% assign grouped_posts = site.posts | group_by: "category" %}
+            
+            {% for group in grouped_posts %}
+                {% if group.name != "" and group.name != nil %}
+                    <li class="header" style="
+                        padding: 7px 15px;
+                        font-size: 0.9em;
+                        font-weight: 700;
+                        color: #4a4a4a;
+                        background-color: #f7f7f7;
+                        border-top: 1px solid #eee;
+                        border-bottom: 1px solid #eee;
+                        margin-top: 10px;
+                        text-transform: uppercase;">
+                        📁 {{ group.name }}
+                    </li>
+
+                    {% for post in group.items %}
+                    <li class="chapter {% if page.url == post.url %}active{% endif %}" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
+                        <a href="{{site.baseurl}}{{post.url}}" onclick="pageScrollToTop(this)" style="padding-left: 20px;">
+                            {{ post.title | escape }}
+                        </a>
+                        {% if site.toc.enabled and page.url == post.url %}
+                            {% include toc.html html=content h_min=site.toc.h_min h_max=site.toc.h_max %}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+            {% assign uncategorized = site.posts | where_exp: "item", "item.category == nil" %}
+            {% if uncategorized.size > 0 %}
+                <li class="header" style="padding: 7px 15px; font-weight: 700;">기타</li>
+                {% for post in uncategorized %}
+                <li class="chapter {% if page.url == post.url %}active{% endif %}">
+                    <a href="{{site.baseurl}}{{post.url}}" onclick="pageScrollToTop(this)">{{ post.title | escape }}</a>
+                </li>
+                {% endfor %}
+            {% endif %}
+
+            <li class="divider"></li>
+        </ul>
+    </nav>
+</div>
+
+<!-- <div class="book-summary">
     <script type="text/javascript">
         // Fixes the page links scroll problem on both desktop and mobile browsers
         function pageScrollToTop(element) {
@@ -51,7 +136,6 @@
             {% if site.ordered_collections %}
                 {% for label in site.ordered_collections %}
                     {% assign collection = site.collections | where: "label", label | first %}
-                    <!-- <p>{{ collection.label }}</p> -->
                     {% if collection.output %}
                         {% if collection.label == "posts" %}
                             {% assign reversed_posts = site[collection.label] | reverse %}
@@ -83,7 +167,6 @@
                 {% endfor %}
             {% else %}
                 {% for collection in site.collections %}
-                    <!-- <p>{{ collection.label }}</p> -->
                     {% if collection.output %}
                         {% if collection.label == "posts" %}
                             {% assign reversed_posts = site[collection.label] | reverse %}
@@ -116,4 +199,4 @@
             {% endif %}
         </ul>
     </nav>
-</div>
+</div> -->

@@ -1,5 +1,5 @@
 ---
-title: ROS2 experiment_2
+title: ROS2 experiment2
 author: Chaewon Kim
 date: 2025-12-23
 category: Experiment

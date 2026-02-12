@@ -97,6 +97,35 @@ permalink: /about/
     </div>
 </section>
 
+
+<section style="margin-top: 50px; font-family: 'Pretendard', sans-serif;">
+    <h3 style="border-bottom: 2px solid #339af0; padding-bottom: 8px; display: inline-block; color: #212529;">Deep Dive: ROS 2 Internals</h3>
+    
+    <div style="margin-top: 20px; line-height: 1.8;">
+        <p style="color: #495057; font-size: 16px;">
+            단순히 API를 사용하는 것을 넘어, <strong>컴퓨터공학적 관점</strong>에서 ROS 2의 성능 한계를 극복하기 위해 아래 주제들을 심도 있게 분석하고 있습니다.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px;">
+            <div style="background: #ffffff; border: 1px solid #e9ecef; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                <div style="font-size: 24px; margin-bottom: 10px;">⚙️</div>
+                <h4 style="margin: 0 0 10px 0; color: #339af0;">Executor Scheduling</h4>
+                <p style="margin: 0; font-size: 14px; color: #868e96;">
+                    rclcpp Executor의 소스 코드를 분석하며 콜백이 스케줄링되는 메커니즘을 공부합니다. 특히 멀티 스레드 환경에서 결정론적(Deterministic) 실행을 보장하는 방법에 관심이 많습니다.
+                </p>
+            </div>
+
+            <div style="background: #ffffff; border: 1px solid #e9ecef; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+                <div style="font-size: 24px; margin-bottom: 10px;">🚀</div>
+                <h4 style="margin: 0 0 10px 0; color: #339af0;">Zero-Copy Mechanism</h4>
+                <p style="margin: 0; font-size: 14px; color: #868e96;">
+                    대용량 데이터 전송 시 발생하는 오버헤드를 줄이기 위해 Shared Memory 기반의 Zero-copy가 왜 필수적인지, 그리고 이를 통해 시스템 자원을 효율적으로 사용하는 구조를 연구합니다.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section style="margin-top: 60px; font-family: 'Pretendard', sans-serif;">
     <h3 style="border-bottom: 2px solid #f1f3f5; padding-bottom: 10px; color: #212529;">Get in Touch</h3>
     
@@ -111,7 +140,7 @@ permalink: /about/
         <div style="display: flex; align-items: center; gap: 12px;">
             <span style="font-size: 20px;">✉️</span>
             <a href="mailto:your_email@gmail.com" style="font-size: 16px; color: #339af0; text-decoration: none; font-weight: 500;">
-                your_email@gmail.com
+                abade3@dgu.ac.kr
             </a>
         </div>
 

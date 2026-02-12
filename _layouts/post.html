@@ -60,6 +60,70 @@
             gitbook.push(function() {
                 gitbook.page.hasChanged({%- include metadata-post.json.tpl -%});
             });
+
+            document.addEventListener("DOMContentLoaded", function() {
+        const tocContainer = document.getElementById('toc-content');
+        const content = document.querySelector('.post-content');
+        
+        // 본문에서 h2, h3 태그만 싹 긁어모음
+        const headers = content.querySelectorAll('h2, h3');
+        
+        if (headers.length === 0) {
+            document.querySelector('.sidebar-right').style.display = 'none'; // 목차 없으면 숨김
+            return;
+        }
+
+        // 1. 목차 리스트 생성 (HTML 만들기)
+        headers.forEach(header => {
+            // 링크 ID가 없으면 강제로 생성 (한글 호환성 위함)
+            if (!header.id) {
+                header.id = header.innerText.trim().replace(/\s+/g, '-');
+            }
+
+            const link = document.createElement('a');
+            link.href = '#' + header.id;
+            link.className = 'toc-link';
+            link.textContent = header.innerText;
+
+            // h3 태그면 들여쓰기 클래스 추가
+            if (header.tagName === 'H3') {
+                link.classList.add('sub-item');
+            }
+
+            // 부드러운 스크롤 이동
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+
+            tocContainer.appendChild(link);
+        });
+
+        // 2. 스크롤 위치 감지 (현재 읽는 곳 강조)
+        const observerOptions = {
+            root: null,
+            rootMargin: '-100px 0px -60% 0px', // 화면 상단 100px 지점 감지
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const tocLink = document.querySelector(`.toc-link[href="#${id}"]`);
+
+                if (entry.isIntersecting) {
+                    // 기존 활성화 제거
+                    document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+                    // 현재 항목 활성화
+                    if (tocLink) tocLink.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        headers.forEach(header => observer.observe(header));
+    });
             </script>
         </div>
 

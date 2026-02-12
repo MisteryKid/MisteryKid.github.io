@@ -70,194 +70,184 @@
 
 
 {% endcomment %}
-
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
     {% include head.html %}
     
     <style>
-        /* 1. GitBook 테마 강제 리셋 (사이드바 숨김 & 전체 화면 사용) */
-        .book-summary { display: none !important; }
+        /* --- 기본 리셋 --- */
+        .book-summary, .book-header { display: none !important; }
         .book-body { left: 0 !important; width: 100% !important; padding: 0 !important; }
-        .book-header { display: none !important; } /* 상단 햄버거 메뉴 숨김 */
+        body { background-color: #ffffff; color: #24292e; line-height: 1.7; overflow-x: hidden; }
 
-        /* 2. 전체 페이지 배경 및 폰트 */
-        body {
-            background-color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
-            color: #24292e;
-            line-height: 1.7;
-        }
-
-        /* 3. 읽기 영역 컨테이너 (중앙 정렬 & 너비 제한) */
-        .post-container {
-            max-width: 740px; /* Medium 표준 너비 (읽기 가장 편함) */
+        /* --- 전체 레이아웃 (3단 구조: 사이드바 - 본문 - 빈공간) --- */
+        .layout-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1400px; /* 전체 폭 제한 */
             margin: 0 auto;
-            padding: 80px 20px 120px 20px;
+            position: relative;
         }
 
-        /* 4. 헤더 (제목, 날짜, 카테고리) */
-        .post-header {
-            margin-bottom: 60px;
-            text-align: left; /* 왼쪽 정렬이 더 트렌디함 */
-            border-bottom: 1px solid #eaecef;
-            padding-bottom: 40px;
+        /* --- 1. 왼쪽 사이드바 (카테고리 네비게이션) --- */
+        .sidebar-left {
+            width: 280px;
+            position: sticky;
+            top: 100px; /* 스크롤 시 상단에서 100px 떨어져서 고정 */
+            margin-right: 60px;
+            padding-top: 10px;
+            /* 화면 좁으면 숨김 (본문 집중) */
+            display: none; 
+            max-height: calc(100vh - 150px);
+            overflow-y: auto; /* 목록 길어지면 스크롤 */
         }
-        .post-category {
-            font-size: 14px;
+        
+        /* 1200px 이상일 때만 사이드바 표시 */
+        @media (min-width: 1300px) {
+            .sidebar-left { display: block; }
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar-title {
+            font-size: 12px;
             font-weight: 700;
-            color: #ff6f0f; /* 당근 주황색 포인트 */
+            color: #868e96;
             text-transform: uppercase;
             margin-bottom: 16px;
-            display: inline-block;
-        }
-        .post-title {
-            font-size: 42px;
-            font-weight: 800;
-            line-height: 1.3;
-            margin: 0 0 20px 0;
-            letter-spacing: -0.02em;
-            word-break: keep-all;
-        }
-        .post-meta {
-            font-size: 15px;
-            color: #868e96;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .author-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #e9ecef;
-        }
-
-        /* 5. 본문 스타일링 (Markdown 변환 영역) */
-        .post-content {
-            font-size: 17px; /* 글자 크기 약간 키움 */
+            letter-spacing: 0.5px;
+            padding-left: 10px;
+            border-left: 3px solid #212529; /* 포인트 라인 */
         }
         
-        /* 제목 태그 스타일 */
-        .post-content h2 {
-            margin-top: 50px;
-            margin-bottom: 20px;
-            font-size: 28px;
-            font-weight: 700;
-            border-bottom: none; /* 기존 밑줄 제거 */
-        }
-        .post-content h3 {
-            margin-top: 40px;
-            margin-bottom: 16px;
-            font-size: 22px;
-            font-weight: 600;
-        }
-        
-        /* 코드 블록 스타일 (깔끔하게) */
-        .post-content pre {
-            background: #f6f8fa; /* 깃허브 스타일 연한 회색 배경 */
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid #eaecef;
-            margin: 30px 0;
-            overflow-x: auto;
-        }
-        .post-content code {
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 0.9em;
-            background-color: rgba(27,31,35,0.05);
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-        }
-        .post-content pre code {
-            background-color: transparent; /* 코드블록 안에서는 배경 제거 */
+        .nav-list {
+            list-style: none;
             padding: 0;
+            margin: 0;
         }
-
-        /* 이미지 스타일 */
-        .post-content img {
-            max-width: 100%;
-            border-radius: 8px;
+        .nav-item {
+            margin-bottom: 10px;
+        }
+        .nav-link {
             display: block;
-            margin: 40px auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        /* 6. 하단 네비게이션 (다음 글/이전 글) */
-        .post-navigation {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid #eaecef;
-            display: flex;
-            justify-content: space-between;
-        }
-        .nav-btn {
+            font-size: 14px;
+            color: #adb5bd; /* 기본: 연한 회색 */
             text-decoration: none;
-            color: #24292e;
-            max-width: 45%;
-        }
-        .nav-label {
-            font-size: 12px;
-            color: #868e96;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .nav-title {
-            font-size: 16px;
-            font-weight: 700;
-            display: block;
             line-height: 1.4;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
         }
-        .nav-btn:hover .nav-title {
-            color: #0366d6; /* 호버 시 파란색 */
-            text-decoration: underline;
+        .nav-link:hover {
+            color: #495057;
+            background: #f8f9fa;
         }
+        /* 현재 보고 있는 글 강조 */
+        .nav-link.active {
+            color: #212529; /* 진한 검정 */
+            font-weight: 600;
+            background: #f1f3f5;
+        }
+
+
+        /* --- 2. 본문 영역 --- */
+        .post-container {
+            width: 100%;
+            max-width: 760px; /* 본문 최대 너비 */
+            padding: 80px 20px 120px 20px;
+            box-sizing: border-box;
+            flex-shrink: 0; /* 본문 줄어들지 않게 */
+        }
+
+        /* 헤더 스타일 */
+        .post-header { margin-bottom: 50px; border-bottom: 1px solid #f1f3f5; padding-bottom: 30px; }
+        .post-category { font-size: 15px; font-weight: 700; color: #339af0; margin-bottom: 12px; display: inline-block; }
+        .post-title { font-size: 40px; font-weight: 800; line-height: 1.3; margin: 0 0 20px 0; word-break: keep-all; letter-spacing: -1px; }
+        .post-meta { font-size: 15px; color: #868e96; }
+
+        /* 본문 콘텐츠 스타일 */
+        .post-content { font-size: 17px; color: #343a40; }
+        .post-content h2 { margin-top: 50px; font-size: 28px; font-weight: 700; }
+        .post-content h3 { margin-top: 40px; font-size: 22px; font-weight: 600; }
+        .post-content p { margin-bottom: 24px; }
+        
+        /* 코드블록 */
+        .post-content pre { background: #f6f8fa; border-radius: 8px; padding: 20px; margin: 30px 0; overflow-x: auto; }
+        .post-content code { font-family: Consolas, monospace; font-size: 0.9em; background: rgba(0,0,0,0.05); padding: 2px 5px; border-radius: 3px; }
+        .post-content pre code { background: none; padding: 0; }
+        
+        /* 이미지 */
+        .post-content img { max-width: 100%; border-radius: 8px; margin: 40px auto; display: block; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+        /* 하단 네비게이션 (이전글/다음글) */
+        .post-navigation { margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f3f5; display: flex; justify-content: space-between; }
+        .nav-btn { text-decoration: none; color: #212529; max-width: 45%; }
+        .nav-label { font-size: 12px; color: #868e96; display: block; margin-bottom: 5px; }
+        .nav-post-title { font-size: 16px; font-weight: 700; }
+        .nav-btn:hover .nav-post-title { color: #339af0; text-decoration: underline; }
 
     </style>
 </head>
 <body>
 
-    <div class="post-container">
+    <div class="layout-wrapper">
         
-        <a href="/" style="text-decoration: none; color: #868e96; font-size: 14px; margin-bottom: 40px; display: inline-block;">
-            &larr; Back to Home
-        </a>
-
-        <header class="post-header">
-            <span class="post-category">{{ page.categories | first }}</span>
-            <h1 class="post-title">{{ page.title }}</h1>
-            <div class="post-meta">
-                <span>By <b>MisteryKid</b></span>
-                <span>·</span>
-                <span>{{ page.date | date: "%Y년 %m월 %d일" }}</span>
+        <aside class="sidebar-left">
+            <div class="sidebar-title">
+                In {{ page.categories | first | upcase }}
             </div>
-        </header>
+            <ul class="nav-list">
+                {% assign current_cat = page.categories | first %}
+                {% for post in site.posts %}
+                    {% if post.categories contains current_cat %}
+                        <li class="nav-item">
+                            <a href="{{ post.url | relative_url }}" class="nav-link {% if post.url == page.url %}active{% endif %}">
+                                {{ post.title }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            
+            <div style="margin-top: 30px;">
+                 <a href="/" style="font-size: 13px; color: #adb5bd; text-decoration: none;">← Back to Home</a>
+            </div>
+        </aside>
 
-        <article class="post-content">
-            {{ content }}
-        </article>
+        <div class="post-container">
+            
+            <header class="post-header">
+                <span class="post-category">{{ page.categories | first | upcase }}</span>
+                <h1 class="post-title">{{ page.title }}</h1>
+                <div class="post-meta">
+                    <span>{{ page.date | date: "%Y년 %m월 %d일" }}</span>
+                    <span>· MisteryKid</span>
+                </div>
+            </header>
 
-        <div class="post-navigation">
-            {% if page.previous %}
-            <a href="{{ page.previous.url | relative_url }}" class="nav-btn">
-                <span class="nav-label">이전 글</span>
-                <span class="nav-title">&larr; {{ page.previous.title }}</span>
-            </a>
-            {% else %}
-            <div></div> {% endif %}
+            <article class="post-content">
+                {{ content }}
+            </article>
 
-            {% if page.next %}
-            <a href="{{ page.next.url | relative_url }}" class="nav-btn" style="text-align: right;">
-                <span class="nav-label">다음 글</span>
-                <span class="nav-title">{{ page.next.title }} &rarr;</span>
-            </a>
-            {% endif %}
+            <div class="post-navigation">
+                {% if page.previous %}
+                <a href="{{ page.previous.url | relative_url }}" class="nav-btn">
+                    <span class="nav-label">Previous Post</span>
+                    <span class="nav-post-title">&larr; {{ page.previous.title }}</span>
+                </a>
+                {% else %}<div></div>{% endif %}
+
+                {% if page.next %}
+                <a href="{{ page.next.url | relative_url }}" class="nav-btn" style="text-align: right;">
+                    <span class="nav-label">Next Post</span>
+                    <span class="nav-post-title">{{ page.next.title }} &rarr;</span>
+                </a>
+                {% endif %}
+            </div>
         </div>
 
-    </div>
-
-    {% include footer.html %}
+    </div> {% include footer.html %}
 
 </body>
 </html>

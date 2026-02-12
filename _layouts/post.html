@@ -1,130 +1,66 @@
-{% comment %}
-
-<!DOCTYPE HTML>
-<html lang="en" >
-    <head>
-
-        {%- include head.html -%}
-
-        {% if page.previous %}
-            <link rel="prev" href="{{site.baseurl}}{{page.previous.url}}" />
-        {% else %}
-            <link rel="prev" href="{{site.baseurl}}/" />
-        {% endif %}
-
-        {% if page.next %}
-            <link rel="next" href="{{site.baseurl}}{{page.next.url}}" />
-        {% endif %}
-    </head>
-    <body>
-        <div class="book">
-
-            {%- include toc-date.html -%}
-
-            <div class="book-body">
-                <div class="book-header" role="navigation">
-                    <!-- Title -->
-                    <h1>
-                        <i class="fa fa-circle-o-notch fa-spin"></i>
-                        {% if page.title %}
-                            <a href="." >{{ page.title | escape }}</a>
-                        {% else %}
-                            <a href="." >{{ site.title | escape }}</a>
-                        {% endif %}
-                    </h1>
-                </div>
-
-                <div class="body-inner">
-                    {%- include body.html -%}
-
-                    {% if page.previous %}
-                        <a href="{{site.baseurl}}{{page.previous.url}}" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{page.previous.title}}">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                    {% else %}
-                        <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{site.title}}">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                    {% endif %}
-
-                    {% if page.next %}
-                        <a href="{{site.baseurl}}{{page.next.url}}" class="navigation navigation-next navigation-unique" aria-label="Next page: {{page.next.title}}">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-
-            <script>
-            var gitbook = gitbook || [];
-            gitbook.push(function() {
-                gitbook.page.hasChanged({%- include metadata-post.json.tpl -%});
-            });
-
-            
-            </script>
-        </div>
-
-        {%- include footer.html -%}
-
-    </body>
-</html>
-
-
-{% endcomment %}
-
-
-
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
     {% include head.html %}
     
     <style>
-        /* --- 기본 리셋 --- */
+        /* --- 기본 리셋 및 레이아웃 --- */
         .book-summary, .book-header { display: none !important; }
         .book-body { left: 0 !important; width: 100% !important; padding: 0 !important; }
         body { background-color: #ffffff; color: #24292e; line-height: 1.7; overflow-x: hidden; }
 
-        /* --- 전체 레이아웃 (3단 구조: 사이드바 - 본문 - 빈공간) --- */
         .layout-wrapper {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            max-width: 1600px; /* 전체 폭 제한 */
+            max-width: 1600px;
             margin: 0 auto;
             position: relative;
         }
 
-        /* --- 1. 왼쪽 사이드바 (카테고리 네비게이션) --- */
+        /* --- 1. 왼쪽 사이드바 (카테고리) --- */
         .sidebar-left {
             width: 280px;
             position: sticky;
-            top: 100px; /* 스크롤 시 상단에서 100px 떨어져서 고정 */
+            top: 100px;
             margin-right: 60px;
             padding-top: 10px;
-            /* 화면 좁으면 숨김 (본문 집중) */
             display: none; 
             max-height: calc(100vh - 150px);
-            overflow-y: auto; /* 목록 길어지면 스크롤 */
+            overflow-y: auto;
         }
 
+        /* --- 2. 본문 영역 --- */
+        .post-container {
+            width: 100%;
+            max-width: 760px;
+            padding: 80px 20px 120px 20px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .post-header { margin-bottom: 50px; border-bottom: 1px solid #f1f3f5; padding-bottom: 30px; }
+        .post-category { font-size: 15px; font-weight: 700; color: #339af0; margin-bottom: 12px; display: inline-block; }
+        .post-title { font-size: 40px; font-weight: 800; line-height: 1.3; margin: 0 0 20px 0; word-break: keep-all; letter-spacing: -1px; }
+        .post-meta { font-size: 15px; color: #868e96; }
+
+        .post-content { font-size: 17px; color: #343a40; }
+        .post-content h2 { margin-top: 50px; font-size: 28px; font-weight: 700; }
+        .post-content h3 { margin-top: 40px; font-size: 22px; font-weight: 600; }
+        
+        /* --- 3. 오른쪽 사이드바 (목차 - TOC) --- */
         .sidebar-right {
             width: 280px;
             margin-left: 60px;
             position: sticky;
-            top: 120px;
+            top: 120px; /* 스크롤 시 멈추는 높이 */
             display: none; /* 기본 숨김 */
             max-height: calc(100vh - 150px);
             overflow-y: auto;
-
-            align-self: flex-start; /* flex 박스 안에서 위쪽부터 정렬 */
-            max-height: calc(100vh - 150px); /* 화면 높이를 넘어가면 내부 스크롤 생성 */
-            overflow-y: auto;
-            
-            display: none; /* 기본 숨김 */
+            align-self: flex-start;
         }
-        /* 목차 스타일 */
+
+        /* 목차 내부 스타일 */
         .toc-title {
             font-size: 12px;
             font-weight: 700;
@@ -135,10 +71,6 @@
             padding-left: 10px;
             border-left: 3px solid #ced4da;
         }
-        /* 목차 리스트 간격 조절 */
-        .toc-list {
-            margin-top: 10px;
-        }
 
         .toc-link {
             display: block;
@@ -147,111 +79,22 @@
             text-decoration: none;
             padding: 4px 10px;
             line-height: 1.5;
-            border-radius: 4px;
             transition: all 0.2s;
-            margin-bottom: 4px;
         }
         
-        .toc-link:hover {
-            color: #212529;
-            background-color: #f8f9fa;
-        }
+        .toc-link:hover { color: #212529; background-color: #f8f9fa; border-radius: 4px; }
+        .toc-link.sub-item { padding-left: 24px; font-size: 13px; }
+        .toc-link.active { color: #228be6; font-weight: 600; border-left: 2px solid #228be6; margin-left: -2px; }
 
-        /* H3 태그(소소제목)는 약간 들여쓰기 */
-        .toc-link.sub-item {
-            padding-left: 24px;
-            font-size: 13px;
-        }
-
-        /* 현재 읽고 있는 위치 강조 (Active) */
-        .toc-link.active {
-            color: #228be6; /* 파란색 강조 */
-            font-weight: 600;
-            background-color: #e7f5ff;
-        }
-        /* 1200px 이상일 때만 사이드바 표시 */
+        /* 반응형: 1450px 이상일 때 양쪽 사이드바 표시 */
         @media (min-width: 1450px) {
-            .sidebar-left { display: block; }
+            .sidebar-left, .sidebar-right { display: block; }
         }
 
-        /* 사이드바 스타일 */
-        .sidebar-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: #868e96;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-            padding-left: 10px;
-            border-left: 3px solid #212529; /* 포인트 라인 */
-        }
-        
-        .nav-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .nav-item {
-            margin-bottom: 10px;
-        }
-        .nav-link {
-            display: block;
-            font-size: 14px;
-            color: #adb5bd; /* 기본: 연한 회색 */
-            text-decoration: none;
-            line-height: 1.4;
-            padding: 6px 10px;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        .nav-link:hover {
-            color: #495057;
-            background: #f8f9fa;
-        }
-        /* 현재 보고 있는 글 강조 */
-        .nav-link.active {
-            color: #212529; /* 진한 검정 */
-            font-weight: 600;
-            background: #f1f3f5;
-        }
-
-
-        /* --- 2. 본문 영역 --- */
-        .post-container {
-            width: 100%;
-            max-width: 760px; /* 본문 최대 너비 */
-            padding: 80px 20px 120px 20px;
-            box-sizing: border-box;
-            flex-shrink: 0; /* 본문 줄어들지 않게 */
-        }
-
-        /* 헤더 스타일 */
-        .post-header { margin-bottom: 50px; border-bottom: 1px solid #f1f3f5; padding-bottom: 30px; }
-        .post-category { font-size: 15px; font-weight: 700; color: #339af0; margin-bottom: 12px; display: inline-block; }
-        .post-title { font-size: 40px; font-weight: 800; line-height: 1.3; margin: 0 0 20px 0; word-break: keep-all; letter-spacing: -1px; }
-        .post-meta { font-size: 15px; color: #868e96; }
-
-        /* 본문 콘텐츠 스타일 */
-        .post-content { font-size: 17px; color: #343a40; }
-        .post-content h2 { margin-top: 50px; font-size: 28px; font-weight: 700; }
-        .post-content h3 { margin-top: 40px; font-size: 22px; font-weight: 600; }
-        .post-content p { margin-bottom: 24px; }
-        
-        /* 코드블록 */
-        .post-content pre { background: #f6f8fa; border-radius: 8px; padding: 20px; margin: 30px 0; overflow-x: auto; }
-        .post-content code { font-family: Consolas, monospace; font-size: 0.9em; background: rgba(0,0,0,0.05); padding: 2px 5px; border-radius: 3px; }
-        .post-content pre code { background: none; padding: 0; }
-        
-        /* 이미지 */
-        .post-content img { max-width: 100%; border-radius: 8px; margin: 40px auto; display: block; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-
-        /* 하단 네비게이션 (이전글/다음글) */
-        .post-navigation { margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f3f5; display: flex; justify-content: space-between; }
-        .nav-btn { text-decoration: none; color: #212529; max-width: 45%; }
-        .nav-label { font-size: 12px; color: #868e96; display: block; margin-bottom: 5px; }
-        .nav-post-title { font-size: 16px; font-weight: 700; }
-        .nav-btn:hover .nav-post-title { color: #339af0; text-decoration: underline; }
-
+        /* 공통 네비게이션 스타일 */
+        .nav-link { display: block; font-size: 14px; color: #adb5bd; text-decoration: none; padding: 6px 10px; border-radius: 6px; transition: 0.2s; }
+        .nav-link:hover, .nav-link.active { color: #212529; background: #f1f3f5; }
+        .nav-link.active { font-weight: 600; }
     </style>
 </head>
 <body>
@@ -259,14 +102,14 @@
     <div class="layout-wrapper">
         
         <aside class="sidebar-left">
-            <div class="sidebar-title">
+            <div style="font-size: 12px; font-weight: 700; color: #868e96; margin-bottom: 16px; padding-left: 10px; border-left: 3px solid #212529;">
                 In {{ page.categories | first | upcase }}
             </div>
-            <ul class="nav-list">
+            <ul style="list-style: none; padding: 0;">
                 {% assign current_cat = page.categories | first %}
                 {% for post in site.posts %}
                     {% if post.categories contains current_cat %}
-                        <li class="nav-item">
+                        <li style="margin-bottom: 8px;">
                             <a href="{{ post.url | relative_url }}" class="nav-link {% if post.url == page.url %}active{% endif %}">
                                 {{ post.title }}
                             </a>
@@ -274,14 +117,12 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            
             <div style="margin-top: 30px;">
                  <a href="/" style="font-size: 13px; color: #adb5bd; text-decoration: none;">← Back to Home</a>
             </div>
         </aside>
 
-        <div class="post-container">
-            
+        <main class="post-container">
             <header class="post-header">
                 <span class="post-category">{{ page.categories | first | upcase }}</span>
                 <h1 class="post-title">{{ page.title }}</h1>
@@ -295,56 +136,45 @@
                 {{ content }}
             </article>
 
-            <div class="post-navigation">
+            <nav style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #f1f3f5; display: flex; justify-content: space-between;">
                 {% if page.previous %}
-                <a href="{{ page.previous.url | relative_url }}" class="nav-btn">
-                    <span class="nav-label">Previous Post</span>
-                    <span class="nav-post-title">&larr; {{ page.previous.title }}</span>
+                <a href="{{ page.previous.url | relative_url }}" style="text-decoration: none; color: #212529; max-width: 45%;">
+                    <span style="font-size: 12px; color: #868e96; display: block;">Previous</span>
+                    <span style="font-weight: 700;">&larr; {{ page.previous.title }}</span>
                 </a>
                 {% else %}<div></div>{% endif %}
 
                 {% if page.next %}
-                <a href="{{ page.next.url | relative_url }}" class="nav-btn" style="text-align: right;">
-                    <span class="nav-label">Next Post</span>
-                    <span class="nav-post-title">{{ page.next.title }} &rarr;</span>
+                <a href="{{ page.next.url | relative_url }}" style="text-align: right; text-decoration: none; color: #212529; max-width: 45%;">
+                    <span style="font-size: 12px; color: #868e96; display: block;">Next</span>
+                    <span style="font-weight: 700;">{{ page.next.title }} &rarr;</span>
                 </a>
                 {% endif %}
-            </div>
-        </div>
+            </nav>
+        </main>
 
-        <div class="sidebar-right-fake"></div>
-
-        <div class="sidebar-right">
+        <aside class="sidebar-right">
             <div class="toc-title">On this page</div>
-            <div id="toc-content" class="toc-list"></div>
-        </div>
+            <div id="toc-content"></div>
+        </aside>
 
     </div> 
 
-    
-    
-    
-    
     {% include footer.html %}
 
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const tocContainer = document.getElementById('toc-content');
         const content = document.querySelector('.post-content');
-        
-        // 본문에서 h2, h3 태그만 싹 긁어모음
         const headers = content.querySelectorAll('h2, h3');
         
-        // 목차 데이터가 없으면 사이드바 전체를 숨김
         if (headers.length === 0) {
             const sideRight = document.querySelector('.sidebar-right');
             if (sideRight) sideRight.style.display = 'none';
             return;
         }
 
-        // 1. 목차 리스트 생성
         headers.forEach(header => {
-            // ID가 없으면 제목 텍스트로 ID 생성 (링크 연결용)
             if (!header.id) {
                 header.id = header.innerText.trim().replace(/\s+/g, '-').toLowerCase();
             }
@@ -354,43 +184,27 @@
             link.className = 'toc-link';
             link.textContent = header.innerText;
 
-            if (header.tagName === 'H3') {
-                link.classList.add('sub-item');
-            }
+            if (header.tagName === 'H3') link.classList.add('sub-item');
 
-            // 클릭 시 부드러운 스크롤 이동
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100, // 상단 여백 확보
-                        behavior: 'smooth'
-                    });
-                }
+                window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
             });
 
             tocContainer.appendChild(link);
         });
 
-        // 2. 스크롤 위치 감지 (어디 읽고 있는지 표시)
-        const observerOptions = {
-            root: null,
-            rootMargin: '-100px 0px -70% 0px',
-            threshold: 0
-        };
-
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 const id = entry.target.getAttribute('id');
                 const tocLink = document.querySelector(`.toc-link[href="#${id}"]`);
-
                 if (entry.isIntersecting) {
-                    document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+                    document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
                     if (tocLink) tocLink.classList.add('active');
                 }
             });
-        }, observerOptions);
+        }, { rootMargin: '-100px 0px -70% 0px' });
 
         headers.forEach(header => observer.observe(header));
     });

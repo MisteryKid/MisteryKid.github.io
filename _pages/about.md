@@ -67,7 +67,7 @@ permalink: /about/
         <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">System Programming</span>
         <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">ROS 2 Internals</span>
         <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">Linux Kernel</span>
-        <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">Distributed Systems</span>
+        <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">Zero copy</span>
     </div>
 </div>
 
@@ -86,3 +86,13 @@ permalink: /about/
     </div>
 </div>
 
+<section style="margin-top: 60px;">
+    <h3 style="border-bottom: 2px solid #339af0; padding-bottom: 8px; display: inline-block;">Current Learning Path</h3>
+    <div style="margin-top: 20px; line-height: 2;">
+        <p style="color: #495057;">시스템 관점에서 ROS 2를 이해하기 위해 다음 단계들을 하나씩 밟아가고 있습니다.</p>
+        <ul style="list-style-type: '📂 '; padding-left: 20px;">
+            <li><strong>DDS 미들웨어 분석</strong>: 실시간 데이터 통신을 위한 QoS 설정 및 성능 비교</li>
+            <li><strong>RCLCPP 내부 구조</strong>: 노드 실행 및 콜백 스케줄링의 병목 지점 파악</li>
+        </ul>
+    </div>
+</section>

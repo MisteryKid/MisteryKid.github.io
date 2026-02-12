@@ -2,7 +2,6 @@
 title: About
 author: Chaewon Kim
 date: 2025-12-22
-category: Jekyll
 layout: post
 permalink: /about/ 
 ---
@@ -59,7 +58,7 @@ permalink: /about/
     <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; border-left: 5px solid #339af0;">
         <p style="margin: 0; font-size: 1.1rem; line-height: 1.8; color: #495057;">
             🎓 <strong>동국대학교 AI융합대학 컴퓨터공학전공</strong> (4학년 재학)<br>
-            🔍 <strong>Current Focus:</strong> ROS 2의 분산 시스템 아키텍처를 분석하고, 커널 및 미들웨어 수준에서 성능을 최적화하고 시스템적 한계를 개선하는 연구를 진행하고 있습니다.
+            🔍 <strong>Current Focus:</strong> ROS 2 아키텍처를 시스템 관점에서 이해하기 위해 공부하고 있습니다. 운영체제의 핵심 개념(Scheduling, IPC)이 로봇 시스템 위에서 어떻게 구현되는지 코드를 뜯어보며 그 간극을 메워가는 중입니다.
         </p>
     </div>
 
@@ -67,7 +66,7 @@ permalink: /about/
         <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">System Programming</span>
         <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">ROS 2 Internals</span>
         <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">Linux Kernel</span>
-        <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">Zero copy</span>
+        <span style="border: 1px solid #339af0; color: #339af0; padding: 4px 12px; border-radius: 5px; font-size: 14px; font-weight: 600;">Zero Copy</span>
     </div>
 </div>
 
@@ -91,8 +90,8 @@ permalink: /about/
     <div style="margin-top: 20px; line-height: 2;">
         <p style="color: #495057;">시스템 관점에서 ROS 2를 이해하기 위해 다음 단계들을 하나씩 밟아가고 있습니다.</p>
         <ul style="list-style-type: '📂 '; padding-left: 20px;">
-            <li><strong>DDS 미들웨어 분석</strong>: 실시간 데이터 통신을 위한 QoS 설정 및 성능 비교</li>
-            <li><strong>RCLCPP 내부 구조</strong>: 노드 실행 및 콜백 스케줄링의 병목 지점 파악</li>
+            <li><strong>DDS 미들웨어 분석</strong>: DDS에 따른 성능 비교 실험</li>
+            <li><strong>RCLCPP 내부 구조</strong>: 노드 실행 및 콜백 스케줄링 알고리즘 파악</li>
         </ul>
     </div>
 </section>

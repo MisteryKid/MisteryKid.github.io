@@ -1,10 +1,7 @@
 ---
-title: about
-author: Chaewon Kim
-date: 2025-12-22
-category: Jekyll
-layout: post
-permalink: /about/
+layout: default
+title: About
 ---
+
 
 This is an about page.

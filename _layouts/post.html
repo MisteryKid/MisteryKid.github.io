@@ -48,34 +48,57 @@
         .post-content h2 { margin-top: 50px; font-size: 28px; font-weight: 700; }
         .post-content h3 { margin-top: 40px; font-size: 22px; font-weight: 600; }
 
-/* --- 1. 코드 블록 가독성 업그레이드 (Pretendard 기반) --- */
-    .post-content pre, 
-    .post-content code {
-        font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif !important;
-    }
+    /* --- 1. 코드 블록 가독성 업그레이드 (Pretendard 기반) --- */
+        .post-content pre, 
+        .post-content code {
+            font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif !important;
+        }
 
-    /* 코드 블록 전체 박스 */
-    .post-content pre {
-        background: #1e1e1e; /* 다크 테마 적용 */
-        color: #d4d4d4;
-        border-radius: 10px;
-        padding: 24px;
-        margin: 32px 0;
-        overflow-x: auto;
-        line-height: 1.6;
-        font-size: 15px;
-        box-shadow: inset 0 1px 4px rgba(0,0,0,0.2);
-    }
+        /* 코드 블록 전체 박스 */
+        .post-content pre {
+            background: #1e1e1e; /* 다크 테마 적용 */
+            color: #d4d4d4;
+            border-radius: 10px;
+            padding: 24px;
+            margin: 32px 0;
+            overflow-x: auto;
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.2);
+        }
 
-    /* 문장 중간에 있는 인라인 코드 */
-    .post-content p code {
-        background: #f1f3f5;
-        color: #eb5757; /* 벨로그 스타일의 포인트 컬러 */
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.9em;
-        font-weight: 600;
-    }
+        /* 문장 중간에 있는 인라인 코드 */
+        .post-content p code {
+            background: #f1f3f5;
+            color: #eb5757; /* 벨로그 스타일의 포인트 컬러 */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        /* --- 2. 본문 및 이미지 넘침 방지 --- */
+        .post-container {
+            width: 100%;
+            max-width: 760px;
+            padding: 80px 20px 120px 20px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            /* 본문 영역 안에서만 내용이 돌게 강제 */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .post-content img {
+            /* 핵심: 부모 너비를 절대 넘지 못하게 함 */
+            max-width: 100% !important;
+            height: auto !important;
+            display: block;
+            margin: 40px auto;
+            border-radius: 12px;
+            /* 이미지가 너무 클 경우 선명도 유지 */
+            object-fit: contain;
+        }
                 
         /* --- 3. 오른쪽 사이드바 (목차 - TOC) --- */
         .sidebar-right {

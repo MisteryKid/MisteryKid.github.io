@@ -47,7 +47,34 @@
         .post-content { font-size: 17px; color: #343a40; }
         .post-content h2 { margin-top: 50px; font-size: 28px; font-weight: 700; }
         .post-content h3 { margin-top: 40px; font-size: 22px; font-weight: 600; }
-        
+
+
+        /* 1. 기본 코드 및 코드 블록 폰트 설정 */
+        .post-content pre, 
+        .post-content code {
+            /* 프리텐다드를 1순위로, 고딕 계열을 백업으로 설정 */
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+        }
+
+        /* 2. 코드 블록(pre) 세부 스타일 정리 */
+        .post-content pre {
+            background: #f6f8fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            overflow-x: auto;
+            line-height: 1.6; /* 줄 간격을 조금 넓히면 더 읽기 편해요 */
+            font-size: 0.95em;
+        }
+
+        /* 3. 문장 중간에 있는 인라인 코드(code) 스타일 */
+        .post-content code {
+            background: rgba(175, 184, 193, 0.2);
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-size: 85%;
+        }
+                
         /* --- 3. 오른쪽 사이드바 (목차 - TOC) --- */
         .sidebar-right {
             width: 280px;

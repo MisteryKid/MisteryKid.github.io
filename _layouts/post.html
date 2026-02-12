@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" >
     <head>
+
         {%- include head.html -%}
 
         {% if page.previous %}
@@ -12,93 +13,50 @@
         {% if page.next %}
             <link rel="next" href="{{site.baseurl}}{{page.next.url}}" />
         {% endif %}
-
-        <style>
-            /* 1. 폰트: 깔끔한 시스템 산세리프 폰트 적용 */
-            body, .book, .book-body, h1, h2, h3, h4, p, a {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-                color: #24292e; /* 깃허브 스타일의 짙은 회색 텍스트 */
-            }
-
-            /* 2. 상단 네비게이션바 스타일 */
-            .custom-top-nav {
-                position: sticky; /* 스크롤 내려도 상단 고정 */
-                top: 0;
-                z-index: 1000;
-                background-color: rgba(255, 255, 255, 0.9); /* 살짝 투명하게 */
-                backdrop-filter: blur(10px); /* 블러 효과 (아이폰 느낌) */
-                border-bottom: 1px solid #eaecef;
-                padding: 15px 40px;
-                display: flex;
-                justify-content: space-between; /* 로고와 메뉴 양쪽 정렬 */
-                align-items: center;
-            }
-
-            /* 상단 메뉴 링크 스타일 */
-            .nav-links a {
-                margin-left: 20px;
-                text-decoration: none;
-                color: #586069;
-                font-weight: 500;
-                font-size: 15px;
-                transition: color 0.2s ease;
-            }
-
-            .nav-links a:hover {
-                color: #0366d6; /* 마우스 올리면 파란색(깃허브 포인트 컬러) */
-            }
-
-            /* 3. 본문 영역 스타일 개선 */
-            .body-inner {
-                max-width: 860px; /* 글이 너무 퍼지지 않게 너비 제한 */
-                margin: 0 auto;   /* 중앙 정렬 */
-                padding-top: 60px !important;    /* 상단바와 간격 */
-                padding-bottom: 100px !important; /* 하단 여백 */
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-            
-            /* 기존 GitBook 헤더 숨기기 (커스텀 헤더를 쓰므로) */
-            .book-header {
-                display: none !important; 
-            }
-        </style>
-        </head>
+    </head>
     <body>
         <div class="book">
 
             {%- include toc-date.html -%}
 
             <div class="book-body">
-                
-                <nav class="custom-top-nav">
-                    <a href="/" style="font-weight: 700; font-size: 18px; color: #24292e; text-decoration: none;">
-                        MisteryKid.Dev
-                    </a>
-                    
-                    <div class="nav-links">
-                        <a href="/">Home</a>
-                        <a href="/about">About</a> <a href="https://github.com/misterykid" target="_blank">
-                            <i class="fa fa-github"></i> GitHub
-                        </a>
-                    </div>
-                </nav>
-                <div class="body-inner">
+
+            <div class="custom-top-nav" style="padding: 15px 30px; border-bottom: 1px solid #eaecef; background-color: #ffffff; display: flex; justify-content: flex-end; gap: 20px;">
+                    <a href="/" style="text-decoration: none; color: #333; font-weight: bold;">Home</a>
+                    <a href="/About" style="text-decoration: none; color: #555;">About</a>
+                    <a href="https://github.com/misterykid" target="_blank" style="text-decoration: none; color: #555;">GitHub</a>
+                </div>
+
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        {% if page.title %}
+                            <a href="." >{{ page.title | escape }}</a>
+                        {% else %}
+                            <a href="." >{{ site.title | escape }}</a>
+                        {% endif %}
+                    </h1>
+                </div>
+
+                <div class="body-inner" style="padding-bottom: 150px; padding-top: 50px;">
                     {%- include body.html -%}
 
-                    <div style="margin-top: 60px; display: flex; justify-content: space-between;">
-                        {% if page.previous %}
-                            <a href="{{site.baseurl}}{{page.previous.url}}" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{page.previous.title}}">
-                                <i class="fa fa-angle-left"></i> {{page.previous.title}}
-                            </a>
-                        {% endif %}
+                    {% if page.previous %}
+                        <a href="{{site.baseurl}}{{page.previous.url}}" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{page.previous.title}}">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{site.baseurl}}/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: {{site.title}}">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    {% endif %}
 
-                        {% if page.next %}
-                            <a href="{{site.baseurl}}{{page.next.url}}" class="navigation navigation-next navigation-unique" aria-label="Next page: {{page.next.title}}" style="margin-left: auto;">
-                                {{page.next.title}} <i class="fa fa-angle-right"></i>
-                            </a>
-                        {% endif %}
-                    </div>
+                    {% if page.next %}
+                        <a href="{{site.baseurl}}{{page.next.url}}" class="navigation navigation-next navigation-unique" aria-label="Next page: {{page.next.title}}">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -110,19 +68,12 @@
             </script>
         </div>
 
-        <footer style="text-align: center; padding: 60px 0; background-color: #f6f8fa; border-top: 1px solid #eaecef; width: 100%;">
-            <div style="max-width: 800px; margin: 0 auto;">
-                <p style="margin: 0; color: #24292e; font-weight: 600; font-size: 1em;">MisteryKid's Tech Blog</p>
-                <p style="margin: 10px 0 0; color: #6a737d; font-size: 0.9em;">
-                    © 2026 MisteryKid. All rights reserved. <br>
-                    <span style="font-size: 0.85em; opacity: 0.7;">Powered by Jekyll & GitBook Theme</span>
-                </p>
-                
-                <div style="margin-top: 20px;">
-                    <a href="https://github.com/misterykid" target="_blank" style="color: #6a737d; text-decoration: none; margin: 0 10px;">GitHub</a>
-                    </div>
-            </div>
-        </footer>
+        {%- include footer.html -%}
+
+        <div style="text-align: center; padding: 40px 0; background-color: #f6f8fa; border-top: 1px solid #eaecef; margin-top: 50px;">
+            <p style="margin: 0; color: #666; font-size: 0.9em;">© 2026 MisteryKid. All rights reserved.</p>
+            <p style="margin: 5px 0 0; font-size: 0.8em; color: #999;">Powered by Jekyll & GitBook</p>
+        </div>
 
     </body>
 </html>

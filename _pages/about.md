@@ -96,3 +96,30 @@ permalink: /about/
         </ul>
     </div>
 </section>
+
+<section style="margin-top: 60px; font-family: 'Pretendard', sans-serif;">
+    <h3 style="border-bottom: 2px solid #f1f3f5; padding-bottom: 10px; color: #212529;">Get in Touch</h3>
+    
+    <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 25px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">🏫</span>
+            <span style="font-size: 16px; color: #495057;">
+                Member of <strong>Dongguk Univ. NOSLAB</strong> (Network & Operating Systems Lab)
+            </span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">✉️</span>
+            <a href="mailto:your_email@gmail.com" style="font-size: 16px; color: #339af0; text-decoration: none; font-weight: 500;">
+                your_email@gmail.com
+            </a>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">🐙</span>
+            <a href="https://github.com/misterykid" target="_blank" style="font-size: 16px; color: #339af0; text-decoration: none; font-weight: 500;">
+                github.com/misterykid
+            </a>
+        </div>
+    </div>
+</section>

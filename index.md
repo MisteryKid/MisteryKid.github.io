@@ -95,6 +95,13 @@ title: Home
         .post-title { font-size: 20px; }
         .profile-img { width: 100px; height: 100px; }
     }
+
+
+    .cat-btn span.count {
+        font-weight: 400; /* 숫자만 폰트 굵기를 가늘게 */
+        opacity: 0.7;    /* 약간 투명하게 */
+        margin-left: 2px;
+    }
 </style>
 
 <div class="blog-container">
@@ -130,10 +137,14 @@ title: Home
     </header>
 
     <nav class="category-nav" id="categoryNav">
-        <button class="cat-btn active" onclick="filterPosts('all', this)">ALL</button>
+        <button class="cat-btn active" onclick="filterPosts('all', this)">
+            ALL ({{ site.posts | size }})
+        </button>
+        
         {% for category in site.categories %}
-            <button class="cat-btn" onclick="filterPosts('{{ category | first }}', this)">
-                {{ category | first | upcase }}
+            {% capture category_name %}{{ category | first }}{% endcapture %}
+            <button class="cat-btn" onclick="filterPosts('{{ category_name }}', this)">
+                {{ category_name | upcase }} ({{ site.categories[category_name] | size }})
             </button>
         {% endfor %}
     </nav>

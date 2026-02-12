@@ -113,10 +113,16 @@
             width: 280px;
             margin-left: 60px;
             position: sticky;
-            top: 100px;
+            top: 120px;
             display: none; /* 기본 숨김 */
             max-height: calc(100vh - 150px);
             overflow-y: auto;
+
+            align-self: flex-start; /* flex 박스 안에서 위쪽부터 정렬 */
+            max-height: calc(100vh - 150px); /* 화면 높이를 넘어가면 내부 스크롤 생성 */
+            overflow-y: auto;
+            
+            display: none; /* 기본 숨김 */
         }
         /* 목차 스타일 */
         .toc-title {
@@ -128,6 +134,10 @@
             letter-spacing: 0.5px;
             padding-left: 10px;
             border-left: 3px solid #ced4da;
+        }
+        /* 목차 리스트 간격 조절 */
+        .toc-list {
+            margin-top: 10px;
         }
 
         .toc-link {

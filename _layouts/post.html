@@ -70,6 +70,9 @@
 
 
 {% endcomment %}
+
+
+
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -86,7 +89,7 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            max-width: 1400px; /* 전체 폭 제한 */
+            max-width: 1600px; /* 전체 폭 제한 */
             margin: 0 auto;
             position: relative;
         }
@@ -103,9 +106,16 @@
             max-height: calc(100vh - 150px);
             overflow-y: auto; /* 목록 길어지면 스크롤 */
         }
+
+        .sidebar-right-fake {
+        width: 280px;       /* 왼쪽 사이드바와 똑같은 너비 */
+        margin-left: 60px;  /* 왼쪽 사이드바 여백과 똑같은 여백 */
+        display: none;      /* 기본은 숨김 */
+        flex-shrink: 0;     /* 본문 밀려도 줄어들지 않음 */
+    }
         
         /* 1200px 이상일 때만 사이드바 표시 */
-        @media (min-width: 1300px) {
+        @media (min-width: 1450px) {
             .sidebar-left { display: block; }
         }
 
@@ -247,7 +257,14 @@
             </div>
         </div>
 
-    </div> {% include footer.html %}
+        <div class="sidebar-right-fake"></div>
+
+    </div> 
+    
+    
+    
+    
+    {% include footer.html %}
 
 </body>
 </html>

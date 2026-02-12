@@ -106,6 +106,14 @@ title: Home
 
 <div class="blog-container">
 
+body::before {
+    content: "";
+    display: block;
+    height: 4px;
+    background: #339af0; /* About 페이지에서 쓴 포인트 블루 */
+    width: 100%;
+}
+
     <header class="blog-header">
         
         <h1 class="blog-title">MisteryKid's TECH-BLOG</h1>

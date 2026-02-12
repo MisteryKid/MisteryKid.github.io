@@ -114,7 +114,7 @@ title: Home
             <a href="mailto:your_email@gmail.com" class="social-btn" title="Email">
                 <svg viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
             </a>
-            <a href="/about" class="social-btn" title="About">
+            <a href="/about/" class="social-btn" title="About">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             </a>
         </div>

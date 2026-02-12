@@ -21,6 +21,19 @@ title: Home
         text-align: center;
         margin-bottom: 50px;
     }
+
+
+/* 프로필 이미지 */
+    .profile-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%; /* 동그랗게 */
+        object-fit: cover;
+        margin-bottom: 20px;
+        border: 1px solid #eaecef;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
     .blog-title {
         font-size: 32px;
         font-weight: 800;
@@ -32,6 +45,47 @@ title: Home
         color: #868e96;
         font-size: 18px;
     }
+
+
+    /* 소셜 링크 아이콘 컨테이너 */
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+    
+    .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #f1f3f5;
+        color: #495057;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .social-btn:hover {
+        background-color: #212529;
+        color: white;
+        transform: translateY(-3px);
+    }
+    .social-btn svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+
+    /* 자세히 보기(About) 버튼 */
+    .about-link {
+        font-size: 14px;
+        color: #868e96;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .about-link:hover { color: #212529; }
 
     /* 3. 카테고리 필터 버튼 (핵심 기능!) */
     .category-nav {

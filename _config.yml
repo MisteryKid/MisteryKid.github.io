@@ -79,3 +79,10 @@ plugins:
 # my_categories: []
 
 
+# ▼▼▼ [추가] 모든 게시글(posts)에 tech-post 레이아웃 자동 적용 ▼▼▼
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "tech-post"

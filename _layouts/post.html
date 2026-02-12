@@ -21,9 +21,9 @@
 
             <div class="book-body">
 
-                <div class="custom-top-nav" style="padding: 15px 30px; border-bottom: 1px solid #eaecef; background-color: #ffffff; display: flex; justify-content: flex-end; gap: 20px;">
+            <div class="custom-top-nav" style="padding: 15px 30px; border-bottom: 1px solid #eaecef; background-color: #ffffff; display: flex; justify-content: flex-end; gap: 20px;">
                     <a href="/" style="text-decoration: none; color: #333; font-weight: bold;">Home</a>
-                    <a href="/about" style="text-decoration: none; color: #555;">About</a>
+                    <a href="/About" style="text-decoration: none; color: #555;">About</a>
                     <a href="https://github.com/misterykid" target="_blank" style="text-decoration: none; color: #555;">GitHub</a>
                 </div>
 
@@ -39,7 +39,7 @@
                     </h1>
                 </div>
 
-                <div class="body-inner" style="padding-bottom: 150px;" >
+                <div class="body-inner" style="padding-bottom: 150px; padding-top: 50px;">
                     {%- include body.html -%}
 
                     {% if page.previous %}
@@ -69,6 +69,11 @@
         </div>
 
         {%- include footer.html -%}
+
+        <div style="text-align: center; padding: 40px 0; background-color: #f6f8fa; border-top: 1px solid #eaecef; margin-top: 50px;">
+            <p style="margin: 0; color: #666; font-size: 0.9em;">© 2026 MisteryKid. All rights reserved.</p>
+            <p style="margin: 5px 0 0; font-size: 0.8em; color: #999;">Powered by Jekyll & GitBook</p>
+        </div>
 
     </body>
 </html>

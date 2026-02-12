@@ -110,7 +110,7 @@ title: Home
         
         <h1 class="blog-title">MisteryKid's TECH-BLOG</h1>
         <p class="blog-description">
-            ROS2 · Linux · <br>
+            ROS2 · Linux <br>
             공부하고 기록하는 공간.
         </p>
 

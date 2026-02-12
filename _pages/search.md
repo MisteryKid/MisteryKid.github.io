@@ -13,6 +13,20 @@ permalink: /search/
         font-family: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif;
     }
 
+    /* [NEW] 뒤로가기 버튼 스타일 */
+    .back-btn {
+        display: inline-block;
+        margin-bottom: 30px;
+        font-size: 14px;
+        color: #adb5bd;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s;
+    }
+    .back-btn:hover {
+        color: #212529; /* 마우스 올리면 진해짐 */
+    }
+
     .search-box {
         position: relative;
         width: 100%;
@@ -88,6 +102,8 @@ permalink: /search/
 
 <div class="search-container">
     
+    <a href="/" class="back-btn">← Back to Home</a>
+    
     <div class="search-box">
         <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         
@@ -104,12 +120,7 @@ permalink: /search/
     var sjs = SimpleJekyllSearch({
         searchInput: document.getElementById('search-input'),
         resultsContainer: document.getElementById('results-container'),
-        
-        // ▼▼▼ [중요] 여기를 수정하세요! ▼▼▼
-        // 기존: json: '/search.json',
         json: '{{ "/search.json" | relative_url }}', 
-        // ▲▲▲ 이렇게 바꾸면 깃허브에서도 정확한 경로를 찾습니다.
-        
         searchResultTemplate: `
             <li class="search-result-item">
                 <a href="{url}">

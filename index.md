@@ -4,147 +4,190 @@ title: Home
 ---
 
 <style>
-    /* 1. GitBook 기본 사이드바 숨기기 (메인에서만) */
+    /* 1. 기본 레이아웃 설정 (사이드바 숨김 등) */
     .book-summary { display: none !important; }
     .book-body { left: 0 !important; width: 100% !important; }
-    .book-header { display: none !important; } /* 기존 헤더 숨김 */
+    .book-header { display: none !important; }
 
-    /* 2. 전체 레이아웃 잡기 */
-    .daangn-container {
-        max-width: 720px; /* 미디엄/당근 블로그의 가독성 최적 너비 */
+    .blog-container {
+        max-width: 800px; /* 텍스트 읽기 편한 너비 */
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 40px 20px;
         font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
-        color: #212529;
     }
 
-    /* 3. 헤더 스타일 */
-    .daangn-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 40px 0 60px 0;
+    /* 2. 헤더 영역 */
+    .blog-header {
+        text-align: center;
+        margin-bottom: 50px;
     }
-    .daangn-logo {
-        font-size: 24px;
+    .blog-title {
+        font-size: 32px;
         font-weight: 800;
-        color: #ff6f0f; /* 당근마켓 주황색 포인트 */
-        text-decoration: none;
-    }
-    .daangn-nav a {
-        margin-left: 20px;
-        color: #868e96;
-        text-decoration: none;
-        font-size: 15px;
-        font-weight: 500;
-    }
-    .daangn-nav a:hover { color: #212529; }
-
-    /* 4. 포스트 리스트 스타일 (핵심!) */
-    .post-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 48px;
-        border-bottom: 1px solid #f1f3f5;
-        padding-bottom: 48px;
-    }
-    .post-content {
-        flex: 1;
-        padding-right: 24px;
-    }
-    .post-title {
-        font-size: 22px;
-        font-weight: 700;
-        margin-bottom: 8px;
-        line-height: 1.4;
-        display: block;
-        text-decoration: none;
         color: #212529;
+        margin-bottom: 10px;
+        letter-spacing: -0.5px;
     }
+    .blog-description {
+        color: #868e96;
+        font-size: 18px;
+    }
+
+    /* 3. 카테고리 필터 버튼 (핵심 기능!) */
+    .category-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 60px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eaecef;
+    }
+    .cat-btn {
+        background: white;
+        border: 1px solid #dee2e6;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #495057;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .cat-btn:hover {
+        background: #f8f9fa;
+        border-color: #adb5bd;
+    }
+    /* 선택된 버튼 스타일 */
+    .cat-btn.active {
+        background: #212529; /* 검은색 배경 */
+        color: white;
+        border-color: #212529;
+    }
+
+    /* 4. 게시글 리스트 스타일 (카드 X, 텍스트 O) */
+    .post-item {
+        padding: 30px 0;
+        border-bottom: 1px solid #f1f3f5;
+        display: block; /* 처음에 다 보여줌 */
+        transition: opacity 0.3s ease;
+    }
+    .post-item.hidden {
+        display: none; /* 필터링되면 숨김 */
+    }
+
+    .post-meta {
+        font-size: 14px;
+        color: #868e96;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .post-category-tag {
+        color: #ff6b6b; /* 포인트 컬러 */
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+    }
+    
+    .post-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #212529;
+        text-decoration: none;
+        margin-bottom: 12px;
+        display: block;
+        line-height: 1.3;
+    }
+    .post-title:hover {
+        color: #339af0; /* 호버 시 파란색 */
+    }
+    
     .post-excerpt {
         font-size: 16px;
         color: #495057;
         line-height: 1.6;
-        margin-bottom: 12px;
+        margin: 0;
         display: -webkit-box;
-        -webkit-line-clamp: 3; /* 3줄 넘어가면 ... 처리 */
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
-    .post-meta {
-        font-size: 13px;
-        color: #868e96;
-    }
-    
-    /* 썸네일 이미지 (오른쪽에 작게 배치) */
-    .post-thumbnail {
-        width: 120px;
-        height: 120px;
-        background-color: #f8f9fa;
-        border-radius: 4px;
-        overflow: hidden;
-        flex-shrink: 0; /* 이미지 크기 줄어들지 않게 고정 */
-    }
-    .post-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
 
-    /* 모바일 대응 */
-    @media (max-width: 768px) {
-        .post-item { flex-direction: column-reverse; }
-        .post-thumbnail { width: 100%; height: 200px; margin-bottom: 16px; }
-        .post-content { padding-right: 0; }
-    }
 </style>
 
-<div class="daangn-container">
-    <header class="daangn-header">
-        <a href="/" class="daangn-logo">MisteryKid Team</a>
-        <nav class="daangn-nav">
-            <a href="/about">팀 소개</a>
-            <a href="/culture">문화</a>
-            <a href="https://github.com/misterykid" target="_blank">GitHub</a>
-        </nav>
+<div class="blog-container">
+
+    <header class="blog-header">
+        <h1 class="blog-title">MisteryKid Log</h1>
+        <p class="blog-description">공부하고 기록하는 공간</p>
     </header>
 
-    <div style="margin-bottom: 60px;">
-        <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">우리가 기술로 일하는 방식</h1>
-        <p style="font-size: 18px; color: #495057;">MisteryKid 기술 블로그입니다. <br>기술적인 고민과 해결 과정을 공유합니다.</p>
-    </div>
+    <nav class="category-nav" id="categoryNav">
+        <button class="cat-btn active" onclick="filterPosts('all', this)">All</button>
+        
+        {% for category in site.categories %}
+            <button class="cat-btn" onclick="filterPosts('{{ category | first }}', this)">
+                {{ category | first | upcase }}
+            </button>
+        {% endfor %}
+    </nav>
 
     <div class="post-list">
-        {% for post in site.posts limit:5 %}
-        <div class="post-item">
-            <div class="post-content">
-                <a href="{{ post.url | relative_url }}" class="post-title">{{ post.title }}</a>
-                <p class="post-excerpt">
-                    {% if post.description %}
-                        {{ post.description }}
-                    {% else %}
-                        {{ post.excerpt | strip_html | truncatewords: 20 }}
-                    {% endif %}
-                </p>
-                <div class="post-meta">
-                    <span>{{ post.author | default: "MisteryKid" }}</span> · 
-                    <span>{{ post.date | date: "%Y년 %m월 %d일" }}</span>
-                </div>
-            </div>
+        {% for post in site.posts %}
+        <article class="post-item" data-category="{{ post.categories | first }}">
             
-            {% if post.image %}
-            <div class="post-thumbnail">
-                <a href="{{ post.url | relative_url }}">
-                    <img src="{{ post.image }}" alt="Thumbnail">
-                </a>
+            <div class="post-meta">
+                <span class="post-category-tag">{{ post.categories | first | upcase }}</span>
+                <span>·</span>
+                <span>{{ post.date | date: "%Y.%m.%d" }}</span>
             </div>
-            {% endif %}
-        </div>
+
+            <a href="{{ post.url | relative_url }}" class="post-title">
+                {{ post.title }}
+            </a>
+
+            <p class="post-excerpt">
+                {% if post.description %}
+                    {{ post.description }}
+                {% else %}
+                    {{ post.excerpt | strip_html | truncatewords: 30 }}
+                {% endif %}
+            </p>
+        </article>
         {% endfor %}
     </div>
 
-    <div style="text-align: center; margin-top: 40px; margin-bottom: 100px;">
-        <a href="/archives" style="padding: 12px 30px; background: #f1f3f5; color: #495057; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 14px;">글 더보기</a>
-    </div>
-
 </div>
+
+<script>
+    function filterPosts(category, btnElement) {
+        // 1. 모든 게시글 가져오기
+        var posts = document.getElementsByClassName('post-item');
+        
+        // 2. 버튼 스타일 변경 (Active 옮기기)
+        var buttons = document.getElementsByClassName('cat-btn');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+        }
+        btnElement.classList.add('active');
+
+        // 3. 실제 필터링 로직
+        for (var i = 0; i < posts.length; i++) {
+            var postCat = posts[i].getAttribute('data-category');
+            
+            if (category === 'all') {
+                // 'All'이면 전부 보여주기
+                posts[i].classList.remove('hidden');
+            } else {
+                // 선택한 카테고리와 같으면 보여주고, 아니면 숨기기
+                if (postCat === category) {
+                    posts[i].classList.remove('hidden');
+                } else {
+                    posts[i].classList.add('hidden');
+                }
+            }
+        }
+    }
+</script>

@@ -104,7 +104,12 @@ permalink: /search/
     var sjs = SimpleJekyllSearch({
         searchInput: document.getElementById('search-input'),
         resultsContainer: document.getElementById('results-container'),
-        json: '/search.json',
+        
+        // ▼▼▼ [중요] 여기를 수정하세요! ▼▼▼
+        // 기존: json: '/search.json',
+        json: '{{ "/search.json" | relative_url }}', 
+        // ▲▲▲ 이렇게 바꾸면 깃허브에서도 정확한 경로를 찾습니다.
+        
         searchResultTemplate: `
             <li class="search-result-item">
                 <a href="{url}">

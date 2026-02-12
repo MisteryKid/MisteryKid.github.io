@@ -102,20 +102,10 @@ title: Home
         opacity: 0.7;    /* 약간 투명하게 */
         margin-left: 2px;
     }
-    .top-bar {
-        height: 5px;
-        background: #339af0; /* About 페이지 포인트 컬러 */
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
+
 </style>
 
 <div class="blog-container">
-
-
-    <div class="top-bar"></div>
 
     <header class="blog-header">
         

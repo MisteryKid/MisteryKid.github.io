@@ -132,7 +132,7 @@ permalink: /about/
         <div style="display: flex; align-items: center; gap: 12px;">
             <span style="font-size: 20px;">🏫</span>
             <span style="font-size: 16px; color: #495057;">
-                Member of <strong>Dongguk Univ. NOSLAB</strong> (Network & Operating Systems Lab)
+                Member of <a href="https://noslab.github.io/" target="_blank" style="color: #339af0; text-decoration: none; font-weight: 700; border-bottom: 1px solid #339af0;">Dongguk Univ. NOSLAB</a> (Next-generation Operating Systems Lab)
             </span>
         </div>
 

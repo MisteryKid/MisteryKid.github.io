@@ -120,7 +120,7 @@ title: Home
 <div class="blog-container">
 
     <header class="blog-header">
-        <h1 class="blog-title">MisteryKid Log</h1>
+        <h1 class="blog-title">MisteryKid Blog</h1>
         <p class="blog-description">공부하고 기록하는 공간</p>
     </header>
 

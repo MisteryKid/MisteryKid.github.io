@@ -1,5 +1,5 @@
 ---
-title: ROS2 experiment2
+title: ROS2 Nav2 with htop
 author: Chaewon Kim
 date: 2025-12-23
 category: Experiment

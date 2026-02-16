@@ -1,5 +1,5 @@
 ---
-title: ROS2 experiment_1
+title: ROS2 communication overhead 
 author: Chaewon Kim
 date: 2025-12-22
 category: Experiment

@@ -16,6 +16,48 @@
             color: #24292e;
             line-height: 1.7;
         }
+        /* 깃 블로그 전체 표 디자인 (앞으로 만드는 모든 표에 적용) */
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead tr {
+        background-color: #3f51b5; /* 헤더 배경색 (원하는 색으로 변경 가능) */
+        color: #ffffff;
+        text-align: left;
+        font-weight: bold;
+        }
+
+        table th, table td {
+        padding: 12px 15px;
+        border: 1px solid #dddddd;
+        }
+
+        table tbody tr {
+        border-bottom: 1px solid #dddddd;
+        }
+
+        table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3; /* 줄무늬 효과 */
+        }
+
+        table tbody tr:last-of-type {
+        border-bottom: 2px solid #3f51b5;
+        }
+
+        /* 단축키 강조용 스타일 (마크다운에서 `키` 로 쓰면 자동 적용) */
+        code {
+        background-color: #e8eaf6;
+        color: #3f51b5;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-weight: bold;
+        }
 
         /* 3. 읽기 영역 컨테이너 (중앙 정렬 & 너비 제한) */
         .post-container {

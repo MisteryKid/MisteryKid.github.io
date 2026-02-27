@@ -10,22 +10,63 @@
         body { background-color: #ffffff; color: #24292e; line-height: 1.7; overflow-x: hidden; }
 
         /* 깃 블로그 전체 표 색상 적용 */
+/* 깃 블로그 전체 표 디자인 - Soft Blue 테마 */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
+    width: 100%;
+    border-collapse: separate; /* 테두리 둥글게 처리를 위해 separate 사용 */
+    border-spacing: 0;
+    margin: 30px 0;
+    font-size: 0.95em;
+    border-radius: 12px;
+    overflow: hidden; /* 둥근 모서리 밖으로 내용이 나가지 않게 함 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+    border: 1px solid #e1e8ed;
 }
-th {
-  background-color: #3f51b5; /* 헤더 보라색 */
-  color: white;
-  padding: 10px;
+
+table thead tr {
+    background-color: #f0f7ff; /* 아주 연한 파란색 배경 */
+    color: #335c81;            /* 짙은 파란색 글자 */
+    text-align: left;
+    font-weight: 700;
 }
-td {
-  border: 1px solid #ddd;
-  padding: 10px;
+
+table th {
+    padding: 16px 20px;
+    border-bottom: 2px solid #d1e3f8; /* 헤더 구분선 */
 }
-tr:nth-child(even) {
-  background-color: #f2f2f2; /* 줄무늬 */
+
+table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f4f8;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+/* 줄무늬 효과 - 더 은은하게 */
+table tbody tr:nth-of-type(even) {
+    background-color: #fafcfe;
+}
+
+/* 마우스 호버 효과 - 세련미 추가 */
+table tbody tr:hover {
+    background-color: #f5f9ff;
+    transition: background-color 0.2s ease;
+}
+
+/* 마지막 행 테두리 제거 */
+table tbody tr:last-of-type td {
+    border-bottom: none;
+}
+
+/* 단축키 강조용 스타일 (표 안의 code 태그) */
+code {
+    background-color: #e6effb; /* 연한 블루 강조 */
+    color: #2b6cb0;            /* 블루 포인트 컬러 */
+    padding: 3px 6px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 600;
+    font-family: "SFMono-Regular", Consolas, monospace;
 }
 
         .layout-wrapper {

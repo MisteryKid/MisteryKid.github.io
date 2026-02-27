@@ -11,62 +11,74 @@
 
         /* 깃 블로그 전체 표 색상 적용 */
 /* 깃 블로그 전체 표 디자인 - Soft Blue 테마 */
+/* 1. 표 전체 스타일 - 너비와 간격 최적화 */
 table {
     width: 100%;
-    border-collapse: separate; /* 테두리 둥글게 처리를 위해 separate 사용 */
+    border-collapse: separate;
     border-spacing: 0;
-    margin: 30px 0;
-    font-size: 0.95em;
+    margin: 35px 0;
     border-radius: 12px;
-    overflow: hidden; /* 둥근 모서리 밖으로 내용이 나가지 않게 함 */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
-    border: 1px solid #e1e8ed;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* 더 부드러운 그림자 */
+    border: none; /* 테두리 삭제 */
 }
 
+/* 2. 헤더 스타일 - 청량한 파란색 */
 table thead tr {
-    background-color: #f0f7ff; /* 아주 연한 파란색 배경 */
-    color: #335c81;            /* 짙은 파란색 글자 */
-    text-align: left;
-    font-weight: 700;
+    background-color: #f1f6fd; /* 연한 하늘색 배경 */
 }
 
 table th {
-    padding: 16px 20px;
-    border-bottom: 2px solid #d1e3f8; /* 헤더 구분선 */
+    padding: 18px 24px;
+    color: #2c5282; /* 진한 블루 글자 */
+    font-size: 15px;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
 }
 
+/* 3. 본문 스타일 */
 table td {
-    padding: 14px 20px;
-    border-bottom: 1px solid #f0f4f8;
+    padding: 20px 24px; /* 간격을 더 넓게 */
     color: #4a5568;
-    line-height: 1.6;
+    font-size: 15px;
+    border-bottom: 1px solid #f1f4f8;
+    vertical-align: middle;
 }
 
-/* 줄무늬 효과 - 더 은은하게 */
+/* 특정 열 너비 고정 (단축키 부분을 더 잘 보이게) */
+table th:nth-child(2), 
+table td:nth-child(2) {
+    min-width: 160px; /* 단축키 열 너비 확보 */
+}
+
+/* 4. 표 내부의 code (단축키) 강조 - 배경 박스 제거 버전 */
+table code {
+    background-color: transparent !important; /* 배경 삭제 */
+    color: #3182ce !important;               /* 포인트 블루 색상 */
+    font-weight: 800 !important;              /* 글자를 더 두껍게 */
+    font-size: 1.05em !important;             /* 크기를 살짝 키움 */
+    padding: 0 !important;
+    border: none !important;
+    font-family: "Pretendard", "Segoe UI", sans-serif; /* 가독성 좋은 폰트 */
+}
+
+/* 5. 줄무늬 및 호버 효과 */
 table tbody tr:nth-of-type(even) {
-    background-color: #fafcfe;
+    background-color: #fafbfc;
 }
 
-/* 마우스 호버 효과 - 세련미 추가 */
 table tbody tr:hover {
-    background-color: #f5f9ff;
-    transition: background-color 0.2s ease;
+    background-color: #f7fafc; /* 마우스 올렸을 때 살짝 변함 */
+    transition: 0.2s;
 }
 
-/* 마지막 행 테두리 제거 */
 table tbody tr:last-of-type td {
     border-bottom: none;
 }
 
-/* 단축키 강조용 스타일 (표 안의 code 태그) */
-/* 1. 표(table) 내부에 있는 코드에만 적용 */
-table code {
-    background-color: transparent !important; /* 배경 박스 강제 제거 */
-    color: #2b6cb0;                            /* 글자색 포인트 */
-    padding: 0 !important;                    /* 여백 제거 */
-    font-weight: 700;                         /* 두껍게 강조 */
-    border: none !important;                   /* 혹시 모를 테두리 제거 */
-}
+
+
 
         .layout-wrapper {
             display: flex;

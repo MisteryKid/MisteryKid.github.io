@@ -13,15 +13,16 @@
 /* 깃 블로그 전체 표 디자인 - Soft Blue 테마 */
 table {
     width: 100%;
-    border-collapse: separate;
+    border-collapse: separate; /* 테두리 둥글게 처리를 위해 separate 사용 */
     border-spacing: 0;
     margin: 30px 0;
     font-size: 0.95em;
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    /* border: 1px solid #e1e8ed;  <-- 이 줄을 삭제하거나 주석 처리하세요 */
+    overflow: hidden; /* 둥근 모서리 밖으로 내용이 나가지 않게 함 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* 은은한 그림자 */
+    border: 1px solid #e1e8ed;
 }
+
 table thead tr {
     background-color: #f0f7ff; /* 아주 연한 파란색 배경 */
     color: #335c81;            /* 짙은 파란색 글자 */
@@ -58,15 +59,7 @@ table tbody tr:last-of-type td {
 }
 
 /* 단축키 강조용 스타일 (표 안의 code 태그) */
-code {
-    background-color: #e6effb; /* 연한 블루 강조 */
-    color: #2b6cb0;            /* 블루 포인트 컬러 */
-    padding: 3px 6px;
-    border-radius: 6px;
-    font-size: 0.85em;
-    font-weight: 600;
-    font-family: "SFMono-Regular", Consolas, monospace;
-}
+
 
         .layout-wrapper {
             display: flex;

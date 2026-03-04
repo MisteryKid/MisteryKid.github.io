@@ -125,6 +125,49 @@ permalink: /about/
     </div>
 </section>
 
+
+<section style="margin-top: 60px; font-family: 'Pretendard', sans-serif;">
+    <h3 style="border-bottom: 2px solid #339af0; padding-bottom: 8px; display: inline-block; color: #212529;">2026 Focus & Goals</h3>
+    
+    <div style="margin-top: 25px; background: #f8f9fa; padding: 30px; border-radius: 15px; border: 1px solid #e9ecef;">
+        <div style="display: grid; gap: 20px;">
+            
+            <div style="display: flex; align-items: flex-start; gap: 15px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                <div style="background: #e7f5ff; color: #339af0; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 800; flex-shrink: 0;">1</div>
+                <div>
+                    <strong style="font-size: 17px; color: #212529;">데이터로 증명하는 시스템 최적화 (국문 논문)</strong>
+                    <p style="margin: 8px 0 0 0; font-size: 14.5px; color: #495057; line-height: 1.6;">
+                        ROS 2 통신 메커니즘을 심도 있게 분석하여, 시스템 성능의 임계점을 보여주는 <strong>'의미 있는 그래프 하나'</strong>를 도출하고 이를 바탕으로 KCI 등재지 혹은 학술대회 논문 1편 게재를 목표로 합니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 15px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                <div style="background: #e7f5ff; color: #339af0; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 800; flex-shrink: 0;">2</div>
+                <div>
+                    <strong style="font-size: 17px; color: #212529;">커널 레벨 프로파일링 숙달</strong>
+                    <p style="margin: 8px 0 0 0; font-size: 14.5px; color: #495057; line-height: 1.6;">
+                        LTTng 및 <code>ros2_tracing</code>을 활용하여 마이크로초($\mu s$) 단위의 시스템 레이턴시를 정교하게 측정하고, OS 스케줄링이 로봇 소프트웨어에 미치는 영향을 코드 레벨에서 추적합니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 15px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                <div style="background: #e7f5ff; color: #339af0; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 800; flex-shrink: 0;">3</div>
+                <div>
+                    <strong style="font-size: 17px; color: #212529;">기술 공유의 습관화</strong>
+                    <p style="margin: 8px 0 0 0; font-size: 14.5px; color: #495057; line-height: 1.6;">
+                        복잡한 시스템 프로그래밍 개념을 나만의 언어로 정리하여 월 2회 이상 기술 블로그에 기록합니다. '공유를 위한 공부'를 통해 지식의 빈틈을 메우고 커뮤니티와 함께 성장합니다.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
 <section style="margin-top: 60px; font-family: 'Pretendard', sans-serif;">
     <h3 style="border-bottom: 2px solid #f1f3f5; padding-bottom: 10px; color: #212529;">Get in Touch</h3>
     

@@ -576,10 +576,110 @@ vehicle2.manufacture();
 # Behavioral Design Patterns
 - 객체가 서로 어떻게 데이터를 주고받고 책임을 분산시키는 지에 대해 설명 
 - 객체 간의 결합도를 낮추면서, 복잡한 제어 흐름을 효율적으로 관리
-
-
+- 런타임 알고리즘 선택: 결제 방식, 정렬 알고리즘 등 상황에 맞는 기술을 실행 중에 선택해야 할 때.
+- 조건문 제거: 방대한 if-else 또는 switch 문을 제거하여 코드를 깔끔하게 만들고 싶을 때.
+- 확장성 확보: 기존 코드를 수정하지 않고도 새로운 동작(전략)을 쉽게 추가하고 싶을 때.
 
 ## Strategy Pattern
+- 할 일은 정해져 있는데, 전략만 상황에 따랏 ㅓ바꾸고 싶을 때
+
+![alt text](/assets/img/Study/Pattern/StretegyDesignPatten.png)
+
+**구성요소**
+
+- **Strategy Interface** (전략 인터페이스)
+  - 모든 알고리즘이 따라야 할 공통 규격. (예: 모든 결제 수단은 pay() 메서드를 가져야 함)
+- **Concrete Strategy** (구체적인 전략)
+  - 실제로 동작하는 개별 알고리즘. (예: 카드 결제 로직, 페이 결제 로직 등)
+- **Context** (컨텍스트)
+  - 전략을 장착하고 실행하는 본체. 전략을 교체할 수 있는 통로를 제공하고, 실제 실행은 전략 객체에 위임함.
+- **Client** (클라이언트)
+  - 상황에 맞는 전략을 선택하여 컨텍스트에 끼워주는 주체.
+
+![alt text](/assets/img/Study/Pattern/stretagyPatternex.png)
+
+```java
+class SortingContext {
+    private SortingStrategy sortingStrategy;
+
+    public SortingContext(SortingStrategy sortingStrategy) {
+        this.sortingStrategy = sortingStrategy;
+    }
+
+    public void setSortingStrategy(SortingStrategy sortingStrategy) {
+        this.sortingStrategy = sortingStrategy;
+    }
+
+    public void performSort(int[] array) {
+        sortingStrategy.sort(array);
+    }
+}
+
+// SortingStrategy.java
+interface SortingStrategy {
+    void sort(int[] array);
+}
+
+// BubbleSortStrategy.java
+class BubbleSortStrategy implements SortingStrategy {
+    @Override
+    public void sort(int[] array) {
+        // Implement Bubble Sort algorithm
+        System.out.println("Sorting using Bubble Sort");
+        // Actual Bubble Sort Logic here
+    }
+}
+
+// MergeSortStrategy.java
+class MergeSortStrategy implements SortingStrategy {
+    @Override
+    public void sort(int[] array) {
+        // Implement Merge Sort algorithm
+        System.out.println("Sorting using Merge Sort");
+        // Actual Merge Sort Logic here
+    }
+}
+
+// QuickSortStrategy.java
+class QuickSortStrategy implements SortingStrategy {
+    @Override
+    public void sort(int[] array) {
+        // Implement Quick Sort algorithm
+        System.out.println("Sorting using Quick Sort");
+        // Actual Quick Sort Logic here
+    }
+}
+
+// Client.java
+public class Client {
+    public static void main(String[] args) {
+        // Create SortingContext with BubbleSortStrategy
+        SortingContext sortingContext = new SortingContext(new BubbleSortStrategy());
+        int[] array1 = {5, 2, 9, 1, 5};
+        sortingContext.performSort(array1); // Output: Sorting using Bubble Sort
+
+        // Change strategy to MergeSortStrategy
+        sortingContext.setSortingStrategy(new MergeSortStrategy());
+        int[] array2 = {8, 3, 7, 4, 2};
+        sortingContext.performSort(array2); // Output: Sorting using Merge Sort
+
+        // Change strategy to QuickSortStrategy
+        sortingContext.setSortingStrategy(new QuickSortStrategy());
+        int[] array3 = {6, 1, 3, 9, 5};
+        sortingContext.performSort(array3); // Output: Sorting using Quick Sort
+    }
+}
+```
+
+**장점**
+- OCP 원칙 준수
+- 코드 깔끔
+- 유지보수 용이
+- 런타임 동작 변경 가능
+**단점**
+- 클래스 개수 증가
+- 클라이언으의 높은 이해도 요구
+- 약간의 오버헤드
 
 ## Mediator Pattern
 

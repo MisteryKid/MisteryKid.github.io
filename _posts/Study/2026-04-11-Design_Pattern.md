@@ -79,84 +79,95 @@ layout: post
 - concrete product 몰라도 됨
 
 
-```cpp
-#include <memory>
-#include "Car.h"
-#include "CarSpecification.h"
+```java
+// Abstract Factory Interface
+interface CarFactory {
+    Car createCar();
+    CarSpecification createSpecification();
+}
 
 
-/* Abstract Factory Interface */
-class CarFactory {
-public:
-    virtual Car* createCar() = 0;
-    virtual CarSpecification* createSpecification() = 0;
-};
+////////////////////////////// Concrete Factory ////////////////////////////// 
+// for North America Cars
+class NorthAmericaCarFactory implements CarFactory {
+    public Car createCar() { return new Sedan(); }
 
-/* Concrete Factories */
-class NorthAmericaCarFactory : public CarFactory {
-public:
-    std::unique_ptr<Car> createCar() override {
-        return std::make_unique<Sedan>();
+    public CarSpecification createSpecification()
+    {
+        return new NorthAmericaSpecification();
     }
-    std::unique_ptr<CarSpecification> createSpecification() override {
-        return std::make_unique<NorthAmericaSpecification>();
-    }
-};
+}
 
-class EuropeCarFactory : public CarFactory {
-public:
-    std::unique_ptr<Car> createCar() override {
-        return std::make_unique<Hatchback>();
-    }
-    std::unique_ptr<CarSpecification> createSpecification() override {
-        return std::make_unique<EuropeSpecification>();
-    }
-};
+// Europe Cars
+class EuropeCarFactory implements CarFactory {
+    public Car createCar() { return new Hatchback(); }
 
-/* Abstract Product Interface */
-//Car
-class Car {
-public:
-    virtual void assemble() = 0;
-};
-//Car Specifications
-class CarSpecification {
-public:
-    virtual void display() = 0;
-};
-
-/* Concrete Products */
-//  Sedan Car
-class Sedan : public Car {
-public:
-    void assemble() {
-        std::cout << "Assembling Sedan car." << std::endl;
+    public CarSpecification createSpecification()
+    {
+        return new EuropeSpecification();
     }
-};
+}
 
-//  Hatchback Car
-class Hatchback : public Car {
-public:
-    void assemble() {
-        std::cout << "Assembling Hatchback car." << std::endl;
-    }
-};
+////////////////////////////// Abstract Product Interface ////////////////////////////// 
+// for Cars
+interface Car {
+    void assemble();
+}
+// Car Specifications
+interface CarSpecification {
+    void display();
+}
 
-// NorthAmerica Car Specification
-class NorthAmericaSpecification : public CarSpecification {
-public:
-    void display() {
-        std::cout << "North America Car Specification: Safety features compliant with local regulations." << std::endl;
+////////////////////////////// Concrete Product //////////////////////////////
+//Sedan Car
+class Sedan implements Car {
+    public void assemble()
+    {System.out.println("Assembling Sedan car.");}
+}
+// Hatchback Car
+class Hatchback implements Car {
+    public void assemble()
+    {System.out.println("Assembling Hatchback car.");}
+}
+
+//North America Car Specification
+class NorthAmericaSpecification
+    implements CarSpecification {
+    public void display()
+    {
+        System.out.println(
+            "North America Car Specification: Safety features compliant with local regulations.");
     }
-};
+}
 
 // Europe Car Specification
-class EuropeSpecification : public CarSpecification {
-public:
-    void display() {
-        std::cout << "Europe Car Specification: Fuel efficiency and emissions compliant with EU standards." << std::endl;
+class EuropeSpecification implements CarSpecification {
+    public void display()
+    {
+        System.out.println(
+            "Europe Car Specification: Fuel efficiency and emissions compliant with EU standards.");
     }
-};
+}
+
+////////////////////////////// Client Code //////////////////////////////
+public class CarFactoryClient {
+    public static void main(String[] args)
+    {
+        // Creating cars for North America
+        CarFactory northAmericaFactory = new NorthAmericaCarFactory();
+        Car northAmericaCar = northAmericaFactory.createCar();
+        CarSpecification northAmericaSpec = northAmericaFactory.createSpecification();
+        northAmericaCar.assemble();
+        northAmericaSpec.display();
+
+        // Creating cars for Europe
+        CarFactory europeFactory = new EuropeCarFactory();
+        Car europeCar = europeFactory.createCar();
+        CarSpecification europeSpec = europeFactory.createSpecification();
+        europeCar.assemble();
+        europeSpec.display();
+    }
+}
 
 ```
 **장점**
@@ -438,36 +449,42 @@ legacy code란
 - print() 라는 이름의 메서드를 가진 새로운 시스템에 적용하고 싶다. 
 - Adapter design pattern을 이용해서 해결해보자. 
 
-```cpp
-// target interface
-class Printer{
-    public:
-        virtual void print() = 0;
-};
+```java
+/* Adapter Design Pattern Example Code */
 
-//Adaptee
-class LegacyPrinter{
-    public:
-        void printDocument(){
-            std::cout <<"legacy printer code " << std::endl;
-        }
-};
+// Target Interface
+interface Printer {
+    void print();
+}
+
+// Adaptee
+class LegacyPrinter {
+    public void printDocument() {
+        System.out.println("Legacy Printer is printing a document.");
+    }
+}
 
 // Adapter
-class PrinterAdapter : public Printer{
-    private:
-        LegacyPrinter legacyPrinter;
-    public:
-        // 기존 코드 오버라이딩하기 
-        // print가 호출되면 legacy의 printDocument가 실행되도록 
-        void print() override{
-            legacyPrinter.printDocument();
-        }
-};
+class PrinterAdapter implements Printer {
+    private LegacyPrinter legacyPrinter = new LegacyPrinter();
 
-//client code
-void clientCode(Printer& printer){
-    printer.print();
+    @Override
+    public void print() {
+        legacyPrinter.printDocument();
+    }
+}
+
+// Client Code
+public class Client {
+    public static void clientCode(Printer printer) {
+        printer.print();
+    }
+
+    public static void main(String[] args) {
+        // Using the Adapter
+        PrinterAdapter adapter = new PrinterAdapter();
+        clientCode(adapter);
+    }
 }
 
 ```
@@ -605,11 +622,9 @@ class SortingContext {
     public SortingContext(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
     }
-
     public void setSortingStrategy(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
     }
-
     public void performSort(int[] array) {
         sortingStrategy.sort(array);
     }
@@ -619,7 +634,6 @@ class SortingContext {
 interface SortingStrategy {
     void sort(int[] array);
 }
-
 // BubbleSortStrategy.java
 class BubbleSortStrategy implements SortingStrategy {
     @Override
@@ -629,7 +643,6 @@ class BubbleSortStrategy implements SortingStrategy {
         // Actual Bubble Sort Logic here
     }
 }
-
 // MergeSortStrategy.java
 class MergeSortStrategy implements SortingStrategy {
     @Override
@@ -639,7 +652,6 @@ class MergeSortStrategy implements SortingStrategy {
         // Actual Merge Sort Logic here
     }
 }
-
 // QuickSortStrategy.java
 class QuickSortStrategy implements SortingStrategy {
     @Override
@@ -649,6 +661,7 @@ class QuickSortStrategy implements SortingStrategy {
         // Actual Quick Sort Logic here
     }
 }
+
 
 // Client.java
 public class Client {
@@ -680,6 +693,10 @@ public class Client {
 - 클래스 개수 증가
 - 클라이언으의 높은 이해도 요구
 - 약간의 오버헤드
+
+
+
+기말 시험범위
 
 ## Mediator Pattern
 

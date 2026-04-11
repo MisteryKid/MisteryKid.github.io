@@ -483,15 +483,101 @@ void clientCode(Printer& printer){
 
 
 ## Bridge Pattern
+- 추상화를 구현으로부터 분리하여 독립적으로 변화할 수 있도록 함 
+- 구현부의 변경이 클라이언트 코드에 영향 주지 않음
+- 상속 대신 합성(Composition)을 사용
 
 
+<div style="display: flex; justify-content: space-around; align-items: flex-start;">
+  <div style="text-align: center; width: 45%;">
+    <p><strong>[Before] 패턴 미적용</strong></p>
+    <img src="/assets/img/Study/Pattern/NoBridge.png" style="width: 100%; border: 1px solid #ddd;">
+  </div>
+  <div style="text-align: center; width: 45%;">
+    <p><strong>[After] 브릿지 패턴 적용</strong></p>
+    <img src="/assets/img/Study/Pattern/BridgeUse.png" style="width: 100%; border: 1px solid #ddd;">
+  </div>
+</div>
 
+
+```java
+class Workshop {
+    work() {
+        throw new Error('Method not implemented.');
+    }
+}
+
+class Produce extends Workshop {
+    work() {
+        process.stdout.write('Produced');
+    }
+}
+
+class Assemble extends Workshop {
+    work() {
+        process.stdout.write(' And');
+        console.log(' Assembled.');
+    }
+}
+
+class Vehicle {
+    constructor(workShop1, workShop2) {
+        this.workShop1 = workShop1;
+        this.workShop2 = workShop2;
+    }
+    manufacture() {
+        throw new Error('Method not implemented.');
+    }
+}
+
+class Car extends Vehicle {
+    manufacture() {
+        process.stdout.write('Car ');
+        this.workShop1.work();
+        this.workShop2.work();
+    }
+}
+
+class Bike extends Vehicle {
+    manufacture() {
+        process.stdout.write('Bike ');
+        this.workShop1.work();
+        this.workShop2.work();
+    }
+}
+
+// 위에서 선언한 클래스들을 가져와서 조립하는 형태
+const vehicle1 = new Car(new Produce(), new Assemble());
+vehicle1.manufacture();
+const vehicle2 = new Bike(new Produce(), new Assemble());
+vehicle2.manufacture();
+
+```
+
+**구성 요소**
+- Abstraction
+- Implementation
+
+구현에 특화된 작업들을 별도의 인터페이스로 **위임(delegating)**함으로써 작동
+- **추상화(Abstraction)**는 구현 인터페이스에 대한 **참조(reference)**를 포함
+- **구체적인 구현체(Concrete implementations)**들이 실제 동작을 제공
+- **클라이언트(Client)**는 구현부가 아닌 오직 추상화 계층하고만 상호작용
+
+
+**장점**
+- 결합도 감소
+- 유연성
+**단점**
+- 초기 설계 복잡성
+- 오버 엔지니어링
 
 ---
 
 # Behavioral Design Patterns
 - 객체가 서로 어떻게 데이터를 주고받고 책임을 분산시키는 지에 대해 설명 
 - 객체 간의 결합도를 낮추면서, 복잡한 제어 흐름을 효율적으로 관리
+
+
 
 ## Strategy Pattern
 

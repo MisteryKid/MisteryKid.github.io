@@ -34,7 +34,7 @@ sudo apt install x11-xserver-utils
 xrandr | grep " connected"
 ```
 아래와 같이 출력이 나옴
-![img](</assets/img/Daily/connect_monitor.png.png>)
+![image](/assets/img/Daily/connect_monitor.png.png)
 
 위 이름 메모장에 적어두기
 

@@ -194,72 +194,6 @@ public:
 
 ![alt text](/assets/img/Study/Pattern/FactoryMethodPatternEx.png)
 
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
-
-// Product Interface
-class Vehicle {
-public:
-    virtual void printVehicle() = 0;
-};
-
-// Concrete Products : 실제 기능 생성 
-class TwoWheeler : public Vehicle {
-public:
-    void printVehicle() override {
-        cout << "I am two wheeler" << endl;}
-};
-class FourWheeler : public Vehicle {
-public:
-    void printVehicle() override {
-        cout << "I am four wheeler" << endl;}
-};
-
-// Creator Interface
-class VehicleFactory {
-public:
-    virtual std::unique_ptr<Vehicle> createVehicle() = 0;
-};
-
-// Concrete Creators
-class TwoWheelerFactory : public VehicleFactory {
-public:
-    std::unique_ptr<Vehicle> createVehicle() override {
-        return std::make_unique<TwoWheeler>(); }
-};
-class FourWheelerFactory : public VehicleFactory {
-public:
-    std::unique_ptr<Vehicle> createVehicle() override {
-        return std::make_unique<FourWheeler>();}
-};
-
-class Client{
-    private:
-        Vehicle *pVehicle;
-
-    public:
-        Client(VehicleFactory *factory){
-            pVehicle = factory->createVehicle();
-        }
-        Vehicle *getVehicle(){
-            return pVehicle;
-        }
-        ~Client(){
-            delete pVehicle;
-        }
-}
-
-int main(){
-    VehicleFactory *twoWhellerFactory = new TwoWhellerFactory();
-    Client twoWheelerClient(twoWheelerFactory);
-    Vehicle *twoWheeler = twoWheelerClient.getVehicle();
-    twoWheeler->printVehicle();
-    delete twoWheelerFactory;
-}
-
-```
 ```java
 // Library classes
 abstract class Vehicle {
@@ -328,6 +262,136 @@ public class GFG {
 - 창업 후 어떤 햄버거를 만들지 정할 때에는 팩토리 매서드 패턴
 
 
+## Builder Pattern
+- 복잡한 객체를 조립하듯 하나하나 쌓아 올려서 만드는 방식 
+- 서브웨이처럼 빵고르고 햄 고르고 치즈 고르고 소스 고르는 느낌
+
+**시나리오**
+1. 빵은 뭘로 할까요? (허니오트)
+2. 길이는요? (15cm)
+3. 치즈는요? (아메리칸 치즈)
+4. 야채는 다 넣을까요? (할라피뇨 빼고 다요)
+5. 소스는요? (스위트 칠리)
+
+```java
+// 그냥 쌩으로 객체 생성시 
+Subway mySandwich = new Subway("허니오트", 15, "아메리칸", true, true, true, false, "칠리", ...);
+
+// 빌더 패턴 사용시 
+// 빌더 패턴을 사용한 깔끔한 주문
+Subway mySandwich = new SubwayBuilder()
+    .setBread("허니오트")
+    .setLength(15)
+    .setCheese("아메리칸")
+    .addVegetables()
+    .setSource("스위트 칠리")
+    .build(); // 마지막에 딱 완성!
+```
+
+**구성요소**
+- **Product** (최종 결과물: 샌드위치)
+  - 당신의 손에 쥐어진 완성된 15cm 에그마요 샌드위치.
+- **Builder** (샌드위치 제조 매뉴얼)
+  - 서브웨이의 제조 순서
+- **Concrete Builder** (샌드위치 아티스트 - 알바생)
+  - 내 주문을 듣고 실제로 빵을 가르고 재료를 넣는 알바생.
+- **Director** (추천 꿀조합 / 메뉴판)
+  - 추천 조합 및 서브웨이 클럽 주세요라는 주문 그 자체.
+  - 특징: 우리가 일일이 야채를 고르기 귀찮을 때, **"메뉴판에 적힌 순서대로(Director) 만들어주세요"**라고 하면 알바생(Builder)이 알아서 정해진 순서대로 조립합니다.
+  - 즉, 복잡한 조립 과정을 미리 정해진 루틴대로 실행해 주는 매니저입니다.
+- **Client** (나 - 배고픈 손님)
+  - 어떤 샌드위치를 먹을지 정하고, 알바생(Builder)을 지목한 뒤, 공정(Director)을 시작시킵니다.
+
+```java
+// 순서 고정 
+// 1. Product: 최종 결과물 (샌드위치)
+class Sandwich {
+    private String bread;
+    private String mainIngredient;
+    private String sauce;
+
+    public void setBread(String bread) { this.bread = bread; }
+    public void setMainIngredient(String mainIngredient) { this.mainIngredient = mainIngredient; }
+    public void setSauce(String sauce) { this.sauce = sauce; }
+
+    public void displayInfo() {
+        System.out.println("--- 주문하신 샌드위치 내역 ---");
+        System.out.println("빵: " + bread);
+        System.out.println("메인 재료: " + mainIngredient);
+        System.out.println("소스: " + sauce + "\n");
+    }
+}
+
+// 2. Builder Interface: 제조 매뉴얼
+interface SandwichBuilder {
+    void buildBread();
+    void buildMainIngredient();
+    void buildSauce();
+    Sandwich getResult();
+}
+
+// 3. ConcreteBuilder: 특정 메뉴 전담 알바생 (에그마요 전담)
+class EggMayoBuilder implements SandwichBuilder {
+    private Sandwich sandwich = new Sandwich();
+
+    @Override
+    public void buildBread() {
+        sandwich.setBread("허니오트 (Honey Oat)");
+    }
+    @Override
+    public void buildMainIngredient() {
+        sandwich.setMainIngredient("에그마요 (Egg Mayo)");
+    }
+    @Override
+    public void buildSauce() {
+        sandwich.setSauce("랜치 & 스위트 칠리");
+    }
+    @Override
+    public Sandwich getResult() {
+        return sandwich;
+    }
+}
+
+// 4. Director: 꿀조합 레시피 (매니저)
+class SubwayDirector {
+    // 레시피대로 조립을 지시함
+    public void construct(SandwichBuilder builder) {
+        builder.buildBread();
+        builder.buildMainIngredient();
+        builder.buildSauce();
+    }
+}
+
+// 5. Client: 손님 (나)
+public class Main {
+    public static void main(String[] args) {
+        // 1. 에그마요 잘 만드는 알바생(Builder)을 부릅니다.
+        SandwichBuilder eggMayoBuilder = new EggMayoBuilder();
+        
+        // 2. 레시피(Director)를 가져옵니다.
+        SubwayDirector director = new SubwayDirector();
+
+        // 3. 매니저가 알바생에게 "레시피대로 만드세요"라고 지시합니다. (조립)
+        director.construct(eggMayoBuilder);
+
+        // 4. 완성된 샌드위치를 받습니다. (getResult)
+        Sandwich mySandwich = eggMayoBuilder.getResult();
+
+        // 5. 맛있게 확인합니다.
+        mySandwich.displayInfo();
+    }
+}
+
+```
+
+**장점**
+- 가독성 좋음
+- 불변성
+
+**단점**
+- 클래스 개수 증가
+- 구조 변경 취약
+  
 ---
 
 
@@ -406,7 +470,7 @@ void clientCode(Printer& printer){
     printer.print();
 }
 
-
+```
 장점
 - 코드 재사용성 좋아짐
 - 단일 책임 원칙
@@ -416,9 +480,6 @@ void clientCode(Printer& printer){
 - 복잡성 증가
 - 성능 오버헤드
 - 어댑터 많아지면 오히려 유지 보수가 어려워짐 
-
-
-```
 
 
 ## Bridge Pattern

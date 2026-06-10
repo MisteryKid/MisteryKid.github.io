@@ -1,5 +1,5 @@
 ---
-title: GeeksforGeeks에서 디자인 패턴 5가지 공부하기
+title: GeeksforGeeks에서 디자인 패턴 23가지 공부하기
 author: Chaewon Kim
 date: 2026-04-11
 category: Study
@@ -8,6 +8,7 @@ layout: post
 
 ## 중간고사 대비 디자인 패턴 공부하기 
 - 2026-1학기 객체지향설계화패턴 시험 공부
+- 기말 공부 추가
 - [GeeksforGeeks: Software Design Patterns](https://www.geeksforgeeks.org/system-design/software-design-patterns/)
 
 

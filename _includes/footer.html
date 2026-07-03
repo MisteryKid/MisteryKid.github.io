@@ -453,8 +453,60 @@
     }
     body[data-theme="dark"] .navigation-prev:hover, 
     body[data-theme="dark"] .navigation-next:hover {
-        background: #1a1b1f !important;
-        color: #ffffff !important;
+    /* 코드 블록 스타일 확장 (복사 버튼 & 언어 배지) */
+    pre.highlight {
+        position: relative !important;
+        padding-top: 36px !important;
+    }
+    
+    .code-lang-badge {
+        position: absolute;
+        top: 8px;
+        left: 14px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #868e96;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: -apple-system, sans-serif;
+        pointer-events: none;
+    }
+    body[data-theme="dark"] .code-lang-badge {
+        color: #5c5f66;
+    }
+
+    .code-copy-btn {
+        position: absolute;
+        top: 6px;
+        right: 10px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        color: #868e96;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: -apple-system, sans-serif;
+    }
+    .code-copy-btn:hover {
+        background: #212529;
+        color: #ffffff;
+        border-color: #212529;
+    }
+    body[data-theme="dark"] .code-copy-btn {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+        color: #a6a7ab;
+    }
+    body[data-theme="dark"] .code-copy-btn:hover {
+        background: #ffffff;
+        color: #1a1b1f;
+        border-color: #ffffff;
     }
 </style>
 
@@ -506,4 +558,76 @@
             btn.style.display = "none";
         }
     };
+
+    // 코드 블록 복사 버튼 & 언어 배지 로직
+    document.addEventListener("DOMContentLoaded", function() {
+        var codeBlocks = document.querySelectorAll('pre.highlight');
+        codeBlocks.forEach(function(pre) {
+            // 부모 요소를 찾아 언어 추출
+            var lang = 'code';
+            var parent = pre.closest('.highlighter-rouge');
+            if (parent) {
+                var classes = parent.className.split(' ');
+                var langClass = classes.find(function(c) { return c.startsWith('language-'); });
+                if (langClass) {
+                    lang = langClass.replace('language-', '');
+                }
+            } else {
+                var codeEl = pre.querySelector('code');
+                if (codeEl) {
+                    var codeClasses = codeEl.className.split(' ');
+                    var langClass = codeClasses.find(function(c) { return c.startsWith('language-'); });
+                    if (langClass) {
+                        lang = langClass.replace('language-', '');
+                    }
+                }
+            }
+            if (lang === 'highlight' || lang === 'plaintext') {
+                lang = 'txt';
+            }
+
+            // 언어 배지 생성 및 추가
+            var badge = document.createElement('span');
+            badge.className = 'code-lang-badge';
+            badge.innerText = lang.toUpperCase();
+            pre.appendChild(badge);
+
+            // 복사 버튼 생성 및 추가
+            var copyBtn = document.createElement('button');
+            copyBtn.className = 'code-copy-btn';
+            copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> <span>Copy</span>';
+            
+            copyBtn.onclick = function() {
+                var codeText = '';
+                var codeEl = pre.querySelector('code');
+                if (codeEl) {
+                    codeText = codeEl.innerText;
+                } else {
+                    codeText = pre.innerText.replace(badge.innerText, '').replace('Copy', '');
+                }
+
+                navigator.clipboard.writeText(codeText.trim()).then(function() {
+                    copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>Copied!</span>';
+                    
+                    // 성공 피드백 스타일 (초록색 활성화)
+                    var origBg = copyBtn.style.background;
+                    var origColor = copyBtn.style.color;
+                    var origBorder = copyBtn.style.borderColor;
+
+                    copyBtn.style.background = '#2b8a3e';
+                    copyBtn.style.color = '#ffffff';
+                    copyBtn.style.borderColor = '#2b8a3e';
+                    
+                    setTimeout(function() {
+                        copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> <span>Copy</span>';
+                        copyBtn.style.background = origBg;
+                        copyBtn.style.color = origColor;
+                        copyBtn.style.borderColor = origBorder;
+                    }, 2000);
+                });
+            };
+
+            pre.appendChild(copyBtn);
+        });
+    });
 </script>

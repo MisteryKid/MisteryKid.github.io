@@ -16,7 +16,7 @@ layout: post
 curl -fsSL https://antigravity.google/cli/install.sh | bash
 ```
 
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image.png)
 
 ---
 
@@ -34,31 +34,31 @@ echo 'export PATH="/home/kimchaewon/.local/bin:$PATH"' >> ~/.bashrc && source ~/
 agy
 ```
 
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image-1.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image-1.png)
 
 ---
 
 ### 4. 웹사이트 인증
 화면에 나타나는 안내를 따라 인증 사이트에 접속한 후, 발급된 코드를 복사하여 입력란에 붙여넣는다.
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image-2.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image-2.png)
 
 ---
 
 ### 5. 테마 설정
 본인의 선호에 맞는 테마를 선택하고 다음 단계로 진행한다.
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image-3.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image-3.png)
 
 ---
 
 ### 6. 설정 완료 및 작업 폴더 신뢰
 설정 확인 화면이 나오면 `OK` 버튼을 클릭한다.
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image-4.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image-4.png)
 
 작업할 폴더를 신뢰할 것인지 묻는 경고창이 나타나면 신뢰(Trust)를 선택한다.
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image-5.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image-5.png)
 
 ---
 
 ### 7. 설치 완료 및 사용
 모든 세팅이 정상적으로 마무리되었다. 이제 안티그래비티 CLI를 사용하여 코딩 작업을 시작한다.
-![alt text](../../../assets/img/posts/Daily/home/kimchaewon/MisteryKid.github.io/_posts/Daily/Setting/image-6.png)
+![alt text](../../../assets/img/posts/Daily/Setting/image-6.png)

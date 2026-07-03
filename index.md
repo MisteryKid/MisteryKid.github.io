@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: default
 title: Home
 ---
 
@@ -573,3 +573,5 @@ title: Home
         applyFilters();
     }
 </script>
+
+{% include footer.html %}

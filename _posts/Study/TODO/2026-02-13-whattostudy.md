@@ -2,7 +2,7 @@
 title: 앞으로 공부해야할거 모음집 
 author: Chaewon Kim
 date: 2026-02-12
-category: Study
+categories: [Study, TODO]
 layout: post
 ---
 

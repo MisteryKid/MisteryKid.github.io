@@ -1,3 +1,9 @@
 {
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "markdown.copyFiles.destination": {
+        "**/_posts/Study/**/*.md": "/assets/img/posts/Study/${documentDirName}/",
+        "**/_posts/Daily/**/*.md": "/assets/img/posts/Daily/${documentDirName}/",
+        "**/_posts/Experiment/**/*.md": "/assets/img/posts/Experiment/${documentDirName}/",
+        "**/*.md": "/assets/img/posts/"
+    }
 }

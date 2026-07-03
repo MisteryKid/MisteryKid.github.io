@@ -104,6 +104,49 @@ title: Home
     .year-btn:hover { background: #e9ecef; }
     .year-btn.active { background: #339af0; color: white; border-color: #339af0; font-weight: 600; }
 
+    /* 리스트 컨트롤 & 페이지네이션 스타일 */
+    .list-controls {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 20px; margin-top: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1f3f5;
+        font-size: 14px; color: #868e96;
+        font-family: -apple-system, sans-serif;
+    }
+    .page-size-selector {
+        display: flex; align-items: center; gap: 6px;
+    }
+    .page-size-selector select {
+        padding: 4px 8px; border-radius: 6px; border: 1px solid #ced4da;
+        background: white; color: #495057; font-size: 13px; font-weight: 500;
+        cursor: pointer; outline: none; transition: border-color 0.2s;
+    }
+    .page-size-selector select:focus {
+        border-color: #339af0;
+    }
+    .pagination-wrapper {
+        display: flex; justify-content: center; margin-top: 40px; margin-bottom: 20px;
+    }
+    .pagination-container {
+        display: flex; gap: 6px; align-items: center;
+    }
+    .page-num-btn {
+        display: flex; align-items: center; justify-content: center;
+        min-width: 36px; height: 36px; padding: 0 6px;
+        border-radius: 8px; border: 1px solid #dee2e6;
+        background: white; color: #495057; font-size: 14px; font-weight: 600;
+        cursor: pointer; transition: all 0.2s ease;
+    }
+    .page-num-btn:hover:not(.disabled):not(.active) {
+        background: #f1f3f5; border-color: #ced4da;
+    }
+    .page-num-btn.active {
+        background: #212529; color: white; border-color: #212529;
+    }
+    .page-num-btn.disabled {
+        opacity: 0.5; cursor: not-allowed; color: #adb5bd; border-color: #e9ecef;
+    }
+
     /* 3. 게시글 리스트 */
     .post-list { min-height: 300px; } /* 필터링 시 높이 흔들림 방지 */
     
@@ -266,6 +309,19 @@ title: Home
         </div>
     </div>
 
+    <div class="list-controls">
+        <div class="post-count-info" id="postCountInfo">Showing 1-10 of {{ site.posts | size }} posts</div>
+        <div class="page-size-selector">
+            <label for="pageSizeSelect">페이지당 글: </label>
+            <select id="pageSizeSelect" onchange="changePageSize(this.value)">
+                <option value="5">5개씩 보기</option>
+                <option value="10" selected>10개씩 보기</option>
+                <option value="15">15개씩 보기</option>
+                <option value="20">20개씩 보기</option>
+            </select>
+        </div>
+    </div>
+
     <div class="post-list">
         {% for post in site.posts %}
         {% assign p_top = post.categories | first | default: post.category %}
@@ -292,6 +348,10 @@ title: Home
         {% endfor %}
     </div>
 
+    <div class="pagination-wrapper">
+        <div class="pagination-container" id="paginationControls"></div>
+    </div>
+
 </div>
 
 <script>
@@ -300,9 +360,14 @@ title: Home
         sub: 'all',
         year: 'all'
     };
+    var currentPage = 1;
+    var pageSize = 10;
 
     function applyFilters() {
         var posts = document.getElementsByClassName('post-item');
+        var matchedPosts = [];
+
+        // 1. Filter posts based on category and year
         for (var i = 0; i < posts.length; i++) {
             var el = posts[i];
             var postTop = el.getAttribute('data-top-category');
@@ -314,20 +379,124 @@ title: Home
             var matchYear = (activeFilters.year === 'all' || postYear === activeFilters.year);
             
             if (matchTop && matchSub && matchYear) {
-                el.classList.remove('hidden');
-                setTimeout((function(e) { return function() { e.style.opacity = '1'; e.style.transform = 'translateY(0)'; }; })(el), 50);
+                matchedPosts.push(el);
             } else {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
                 el.classList.add('hidden');
             }
         }
+
+        // 2. Pagination math
+        var totalMatched = matchedPosts.length;
+        var totalPages = Math.ceil(totalMatched / pageSize) || 1;
+        
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
+
+        var startIdx = (currentPage - 1) * pageSize;
+        var endIdx = startIdx + pageSize;
+
+        // 3. Show only matched posts for the current page
+        for (var j = 0; j < totalMatched; j++) {
+            var el = matchedPosts[j];
+            if (j >= startIdx && j < endIdx) {
+                el.classList.remove('hidden');
+                setTimeout((function(e) { 
+                    return function() { 
+                        e.style.opacity = '1'; 
+                        e.style.transform = 'translateY(0)'; 
+                    }; 
+                })(el), 50);
+            } else {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.classList.add('hidden');
+            }
+        }
+
+        // 4. Update count info
+        var countInfo = document.getElementById('postCountInfo');
+        if (countInfo) {
+            if (totalMatched === 0) {
+                countInfo.innerText = "조건에 맞는 글이 없습니다.";
+            } else {
+                var displayStart = startIdx + 1;
+                var displayEnd = Math.min(endIdx, totalMatched);
+                countInfo.innerText = "전체 " + totalMatched + "개 중 " + displayStart + "-" + displayEnd + "번째 글 표시 중";
+            }
+        }
+
+        // 5. Render controls
+        renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+        var container = document.getElementById('paginationControls');
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (totalPages <= 1) {
+            return;
+        }
+
+        // Prev Button
+        var prevBtn = document.createElement('button');
+        prevBtn.className = 'page-num-btn' + (currentPage === 1 ? ' disabled' : '');
+        prevBtn.innerText = '‹';
+        if (currentPage > 1) {
+            prevBtn.onclick = function() {
+                currentPage--;
+                applyFilters();
+                window.scrollTo({top: document.getElementById('categoryNav').offsetTop - 20, behavior: 'smooth'});
+            };
+        }
+        container.appendChild(prevBtn);
+
+        // Page Buttons
+        for (var i = 1; i <= totalPages; i++) {
+            var pageBtn = document.createElement('button');
+            pageBtn.className = 'page-num-btn' + (i === currentPage ? ' active' : '');
+            pageBtn.innerText = i;
+            (function(page) {
+                pageBtn.onclick = function() {
+                    currentPage = page;
+                    applyFilters();
+                    window.scrollTo({top: document.getElementById('categoryNav').offsetTop - 20, behavior: 'smooth'});
+                };
+            })(i);
+            container.appendChild(pageBtn);
+        }
+
+        // Next Button
+        var nextBtn = document.createElement('button');
+        nextBtn.className = 'page-num-btn' + (currentPage === totalPages ? ' disabled' : '');
+        nextBtn.innerText = '›';
+        if (currentPage < totalPages) {
+            nextBtn.onclick = function() {
+                currentPage++;
+                applyFilters();
+                window.scrollTo({top: document.getElementById('categoryNav').offsetTop - 20, behavior: 'smooth'});
+            };
+        }
+        container.appendChild(nextBtn);
+    }
+
+    function changePageSize(size) {
+        pageSize = parseInt(size, 10);
+        currentPage = 1;
+        applyFilters();
     }
 
     function filterPosts(category, btnElement) {
         activeFilters.top = category;
         activeFilters.sub = 'all';
         activeFilters.year = 'all';
+        currentPage = 1;
 
         // 상위 카테고리 버튼 활성화 스타일 변경
         var buttons = document.getElementsByClassName('cat-btn');
@@ -372,8 +541,14 @@ title: Home
         applyFilters();
     }
 
+    // Initialize pagination on load
+    document.addEventListener("DOMContentLoaded", function() {
+        applyFilters();
+    });
+
     function filterSubcategory(topCategory, subCategory, btnElement) {
         activeFilters.sub = subCategory;
+        currentPage = 1;
 
         // 하위 카테고리(Topic) 버튼 활성화 스타일 변경
         var row = btnElement.parentElement;
@@ -388,6 +563,7 @@ title: Home
 
     function filterYear(topCategory, year, btnElement) {
         activeFilters.year = year;
+        currentPage = 1;
 
         // 하위 카테고리(Year) 버튼 활성화 스타일 변경
         var row = btnElement.parentElement;

@@ -84,8 +84,9 @@ MisteryKid.github.io/
 │   └── Study/
 │       ├── TODO/
 │       │   └── 2026-02-13-whattostudy.md # categories: [Study, TODO]
+│       ├── ROS2/
+│       │   └── 2026-01-21-Priority.md    # categories: [Study, ROS2]
 │       ├── System/
-│       │   ├── 2026-01-21-Priority.md    # categories: [Study, System]
 │       │   ├── 2026-01-27-cgroup.md      # categories: [Study, System]
 │       │   └── 2026-02-12-Memory.md      # categories: [Study, System]
 │       └── Design_Pattern/
@@ -100,5 +101,27 @@ MisteryKid.github.io/
 * **Q. 하위 카테고리가 홈 화면 상단(ALL 옆)에 독립된 큰 버튼으로 떠요!**
   * **원인**: 포스트 머리말에 `categories: [Design Pattern]`과 같이 하위 카테고리만 단독으로 적었기 때문입니다.
   * **해결**: 반드시 `categories: [Study, Design Pattern]`처럼 상위 카테고리를 첫 번째 요소로 함께 명시해 주어야 정상적인 2단 구조로 분류됩니다.
-* **Q. 카테고리 이름을 수정하고 싶어요.**
+* Q. 카테고리 이름을 수정하고 싶어요.
   * 해당 하위 카테고리에 속한 모든 마크다운 파일들의 `categories: [...]` 설정 내 텍스트를 일괄 수정해 주시면 빌드 시 자동 변경됩니다.
+
+---
+
+## 5. 📷 이미지 자산 관리 가이드
+
+블로그에 이미지를 쉽고 일관성 있게 추가하기 위해 VS Code 자동 복사 설정을 완료했습니다.
+
+### ⚙️ VS Code 이미지 자동 설정 내역
+프로젝트 루트의 `.vscode/settings.json`에 규칙을 추가하여, 포스트 마크다운 파일에 이미지를 복사-붙여넣기(Ctrl+V)하면 **해당 포스트의 카테고리 폴더로 이미지 파일이 자동으로 복사**되고 절대 경로로 링크가 삽입됩니다.
+
+* **동작 매핑 예시**:
+  * `_posts/Study/ROS2/`의 글에 붙여넣기 ➔ `/assets/img/posts/Study/ROS2/` 폴더로 이미지 자동 이동 및 `/assets/img/posts/Study/ROS2/image.png` 형식의 링크 삽입
+  * `_posts/Daily/Setting/`의 글에 붙여넣기 ➔ `/assets/img/posts/Daily/Setting/` 폴더로 이미지 자동 이동 및 `/assets/img/posts/Daily/Setting/image.png` 형식의 링크 삽입
+  * `_posts/Experiment/ROS2/`의 글에 붙여넣기 ➔ `/assets/img/posts/Experiment/ROS2/` 폴더로 이미지 자동 이동 및 `/assets/img/posts/Experiment/ROS2/image.png` 형식의 링크 삽입
+
+### 📝 수동 작성 시 이미지 경로
+마크다운에 이미지를 직접 작성할 때는 항상 **블로그 root 기준 절대 경로(슬래시 `/`로 시작)**로 작성해 주세요.
+```markdown
+![설명](/assets/img/posts/Study/ROS2/image_name.png)
+```
+> [!NOTE]
+> 상대 경로(`../../../assets/...`)로 작성하면 글이 하위 폴더로 이동할 때 경로가 깨지기 쉽지만, 루트 기준 절대 경로(`/assets/...`)로 작성하면 언제 어디서든 경로가 항상 유지되므로 훨씬 안전합니다.

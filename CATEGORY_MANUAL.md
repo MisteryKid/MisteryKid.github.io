@@ -67,6 +67,9 @@
 ```text
 MisteryKid.github.io/
 ├── _posts/
+│   ├── Project/
+│   │   └── Intro/
+│   │       └── 2026-07-03-project-placeholder.md # categories: [Project, Intro]
 │   ├── Daily/
 │   │   ├── Setting/
 │   │   │   └── 2026-02-27-tmux.md        # categories: [Daily, Setting]

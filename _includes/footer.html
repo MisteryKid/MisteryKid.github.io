@@ -189,10 +189,10 @@
     /* 플로팅 버튼 스타일 */
     .theme-toggle-btn {
         position: fixed;
-        bottom: 30px;
-        left: 30px;
-        width: 45px;
-        height: 45px;
+        top: 20px;
+        right: 20px;
+        width: 38px;
+        height: 38px;
         background: rgba(255, 255, 255, 0.85);
         backdrop-filter: blur(8px);
         color: #212529;
@@ -201,21 +201,34 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         cursor: pointer;
-        z-index: 1000;
+        z-index: 1001;
         transition: all 0.2s ease;
     }
     .theme-toggle-btn:hover {
-        transform: translateY(-5px);
+        transform: scale(1.05);
         background: #212529;
         color: #ffffff;
         border-color: #212529;
     }
     .theme-toggle-btn svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
         stroke: currentColor;
+    }
+
+    @media (max-width: 600px) {
+        .theme-toggle-btn {
+            top: 8px;
+            right: 10px;
+            width: 34px;
+            height: 34px;
+        }
+        .theme-toggle-btn svg {
+            width: 16px;
+            height: 16px;
+        }
     }
 
     /* --- 다크 모드 글로벌 스타일 --- */

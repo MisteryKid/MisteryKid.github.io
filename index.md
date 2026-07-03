@@ -46,14 +46,17 @@ title: Home
     .social-btn:hover { background-color: #212529; color: white; border-color: #212529; transform: translateY(-3px); }
     .social-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-    /* 2. 카테고리 필터 (Sticky 적용: 스크롤 내려도 상단에 붙음) */
+    /* 2. 카테고리 및 하위 카테고리 필터 (Sticky 적용: 스크롤 내려도 상단에 붙음) */
+    .nav-wrapper {
+        position: sticky; top: 0; z-index: 100;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border-bottom: 1px solid #f1f3f5;
+        margin-bottom: 40px;
+        padding: 15px 0;
+    }
     .category-nav {
         display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;
-        margin-bottom: 40px; padding: 15px 0;
-        background: rgba(255, 255, 255, 0.95); /* 배경 살짝 불투명 */
-        position: sticky; top: 0; z-index: 100; /* 스크롤 시 상단 고정 */
-        border-bottom: 1px solid #f1f3f5;
-        backdrop-filter: blur(5px);
     }
     .cat-btn {
         background: white; border: 1px solid #dee2e6;
@@ -63,6 +66,27 @@ title: Home
     }
     .cat-btn:hover { background: #f1f3f5; }
     .cat-btn.active { background: #212529; color: white; border-color: #212529; }
+
+    /* 하위 카테고리 스타일 */
+    .subcat-container {
+        display: flex; justify-content: center; flex-wrap: wrap; gap: 6px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px dashed #e9ecef;
+        animation: fadeIn 0.2s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .subcat-btn {
+        background: #f8f9fa; border: 1px solid #ced4da;
+        padding: 4px 12px; border-radius: 16px;
+        cursor: pointer; font-size: 13px; color: #495057; font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .subcat-btn:hover { background: #e9ecef; }
+    .subcat-btn.active { background: #495057; color: white; border-color: #495057; font-weight: 600; }
 
     /* 3. 게시글 리스트 */
     .post-list { min-height: 300px; } /* 필터링 시 높이 흔들림 방지 */
@@ -137,24 +161,82 @@ title: Home
         </div>
     </header>
 
-    <nav class="category-nav" id="categoryNav">
-        <button class="cat-btn active" onclick="filterPosts('all', this)">
-            ALL ({{ site.posts | size }})
-        </button>
-        
-        {% for category in site.categories %}
-            {% capture category_name %}{{ category | first }}{% endcapture %}
-            <button class="cat-btn" onclick="filterPosts('{{ category_name }}', this)">
-                {{ category_name | upcase }} ({{ site.categories[category_name] | size }})
+    <div class="nav-wrapper">
+        <nav class="category-nav" id="categoryNav">
+            <button class="cat-btn active" onclick="filterPosts('all', this)">
+                ALL ({{ site.posts | size }})
             </button>
-        {% endfor %}
-    </nav>
+            
+            {% assign top_cats = "" | split: "" %}
+            {% for post in site.posts %}
+                {% assign p_top = post.categories | first | default: post.category %}
+                {% if p_top and p_top != "" %}
+                    {% unless top_cats contains p_top %}
+                        {% assign top_cats = top_cats | push: p_top %}
+                    {% endunless %}
+                {% endif %}
+            {% endfor %}
+
+            {% for category_name in top_cats %}
+                {% assign cat_count = 0 %}
+                {% for post in site.posts %}
+                    {% assign p_top = post.categories | first | default: post.category %}
+                    {% if p_top == category_name %}
+                        {% assign cat_count = cat_count | plus: 1 %}
+                    {% endif %}
+                {% endfor %}
+                <button class="cat-btn" onclick="filterPosts('{{ category_name }}', this)">
+                    {{ category_name | upcase }} ({{ cat_count }})
+                </button>
+            {% endfor %}
+        </nav>
+
+        <div id="subcategoryNavArea">
+            {% for category_name in top_cats %}
+                {% assign sub_cats = "" | split: "" %}
+                {% for post in site.posts %}
+                    {% assign p_top = post.categories | first | default: post.category %}
+                    {% assign p_sub = post.categories[1] | default: post.subcategory %}
+                    {% if p_top == category_name and p_sub and p_sub != "" %}
+                        {% unless sub_cats contains p_sub %}
+                            {% assign sub_cats = sub_cats | push: p_sub %}
+                        {% endunless %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if sub_cats.size > 0 %}
+                    <nav class="subcat-container" id="subcat-{{ category_name | replace: ' ', '-' }}" style="display: none;">
+                        <button class="subcat-btn active" onclick="filterSubcategory('{{ category_name }}', 'all', this)">
+                            전체 (All)
+                        </button>
+                        {% for sc in sub_cats %}
+                            {% assign sc_count = 0 %}
+                            {% for post in site.posts %}
+                                {% assign p_top = post.categories | first | default: post.category %}
+                                {% assign p_sub = post.categories[1] | default: post.subcategory %}
+                                {% if p_top == category_name and p_sub == sc %}
+                                    {% assign sc_count = sc_count | plus: 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            <button class="subcat-btn" onclick="filterSubcategory('{{ category_name }}', '{{ sc }}', this)">
+                                {{ sc }} ({{ sc_count }})
+                            </button>
+                        {% endfor %}
+                    </nav>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 
     <div class="post-list">
         {% for post in site.posts %}
-        <article class="post-item" data-category="{{ post.categories | first }}">
+        {% assign p_top = post.categories | first | default: post.category %}
+        {% assign p_sub = post.categories[1] | default: post.subcategory | default: '' %}
+        <article class="post-item" data-top-category="{{ p_top }}" data-subcategory="{{ p_sub }}">
             <div class="post-meta">
-                <span class="post-category-tag">{{ post.categories | first | upcase }}</span>
+                <span class="post-category-tag">
+                    {{ p_top | upcase }}{% if p_sub != '' %} / {{ p_sub | upcase }}{% endif %}
+                </span>
                 <span>{{ post.date | date: "%Y.%m.%d" }}</span>
             </div>
             <a href="{{ post.url | relative_url }}" class="post-title">
@@ -177,25 +259,72 @@ title: Home
     function filterPosts(category, btnElement) {
         var posts = document.getElementsByClassName('post-item');
         
-        // 버튼 활성화 스타일 변경
+        // 상위 카테고리 버튼 활성화 스타일 변경
         var buttons = document.getElementsByClassName('cat-btn');
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].classList.remove('active');
         }
         btnElement.classList.add('active');
 
-        // 필터링 로직
+        // 모든 하위 카테고리 컨테이너 숨기기
+        var subcatContainers = document.getElementsByClassName('subcat-container');
+        for (var i = 0; i < subcatContainers.length; i++) {
+            subcatContainers[i].style.display = 'none';
+        }
+
+        // 선택된 카테고리에 하위 카테고리가 있다면 표시하고 '전체' 버튼 활성화
+        if (category !== 'all') {
+            var targetSubcatId = 'subcat-' + category.replace(/\s+/g, '-');
+            var activeSubcat = document.getElementById(targetSubcatId);
+            if (activeSubcat) {
+                activeSubcat.style.display = 'flex';
+                var subBtns = activeSubcat.getElementsByClassName('subcat-btn');
+                for (var j = 0; j < subBtns.length; j++) {
+                    subBtns[j].classList.remove('active');
+                }
+                if (subBtns.length > 0) {
+                    subBtns[0].classList.add('active');
+                }
+            }
+        }
+
+        // 게시글 필터링 로직 (상위 카테고리 기준)
         for (var i = 0; i < posts.length; i++) {
-            var postCat = posts[i].getAttribute('data-category');
+            var postTopCat = posts[i].getAttribute('data-top-category');
             var el = posts[i];
             
-            if (category === 'all' || postCat === category) {
-                // 보여주기
+            if (category === 'all' || postTopCat === category) {
                 el.classList.remove('hidden');
-                // 약간의 딜레이 후 투명도 복구 (애니메이션용)
                 setTimeout((function(e) { return function() { e.style.opacity = '1'; e.style.transform = 'translateY(0)'; }; })(el), 50);
             } else {
-                // 숨기기
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.classList.add('hidden');
+            }
+        }
+    }
+
+    function filterSubcategory(topCategory, subCategory, btnElement) {
+        var posts = document.getElementsByClassName('post-item');
+        
+        // 하위 카테고리 버튼 활성화 스타일 변경
+        var subcatContainer = btnElement.parentElement;
+        var subBtns = subcatContainer.getElementsByClassName('subcat-btn');
+        for (var i = 0; i < subBtns.length; i++) {
+            subBtns[i].classList.remove('active');
+        }
+        btnElement.classList.add('active');
+
+        // 게시글 필터링 로직 (상위 + 하위 카테고리 기준)
+        for (var i = 0; i < posts.length; i++) {
+            var postTopCat = posts[i].getAttribute('data-top-category');
+            var postSubCat = posts[i].getAttribute('data-subcategory');
+            var el = posts[i];
+            
+            if (postTopCat === topCategory && (subCategory === 'all' || postSubCat === subCategory)) {
+                el.classList.remove('hidden');
+                setTimeout((function(e) { return function() { e.style.opacity = '1'; e.style.transform = 'translateY(0)'; }; })(el), 50);
+            } else {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
                 el.classList.add('hidden');

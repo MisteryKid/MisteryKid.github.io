@@ -2,7 +2,7 @@
 title: GeeksforGeeks에서 디자인 패턴 23가지 공부하기
 author: Chaewon Kim
 date: 2026-04-11
-category: Study
+categories: [Study, Design Pattern]
 layout: post
 ---
 

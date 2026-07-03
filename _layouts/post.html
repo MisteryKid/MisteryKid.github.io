@@ -269,7 +269,9 @@ table tbody tr:last-of-type td {
 
         <main class="post-container">
             <header class="post-header">
-                <span class="post-category">{{ page.categories | first | upcase }}</span>
+                {% assign p_top = page.categories | first | default: page.category %}
+{% assign p_sub = page.categories[1] | default: page.subcategory %}
+<span class="post-category">{{ p_top | upcase }}{% if p_sub and p_sub != '' %} / {{ p_sub | upcase }}{% endif %}</span>
                 <h1 class="post-title">{{ page.title }}</h1>
                 <div class="post-meta">
                     <span>{{ page.date | date: "%Y년 %m월 %d일" }}</span>

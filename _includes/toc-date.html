@@ -56,6 +56,8 @@
                     </li>
 
                     {% for post in group.items %}
+                    {% assign p_sub = post.categories[1] | default: post.subcategory %}
+                    {% if p_sub == nil or p_sub == "" %}
                     <li class="chapter {% if page.url == post.url %}active{% endif %}" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
                         <a href="{{site.baseurl}}{{post.url}}" onclick="pageScrollToTop(this)" style="padding-left: 20px;">
                             {{ post.title | escape }}
@@ -64,6 +66,43 @@
                             {% include toc.html html=content h_min=site.toc.h_min h_max=site.toc.h_max %}
                         {% endif %}
                     </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% assign grp_subcats = "" | split: "" %}
+                    {% for post in group.items %}
+                        {% assign p_sub = post.categories[1] | default: post.subcategory %}
+                        {% if p_sub and p_sub != "" %}
+                            {% unless grp_subcats contains p_sub %}
+                                {% assign grp_subcats = grp_subcats | push: p_sub %}
+                            {% endunless %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for sc in grp_subcats %}
+                    <li class="header" style="
+                        padding: 5px 15px 5px 25px;
+                        font-size: 0.85em;
+                        font-weight: 600;
+                        color: #555;
+                        background-color: #fafafa;
+                        border-bottom: 1px dashed #eee;
+                        margin-top: 4px;">
+                        📂 {{ sc }}
+                    </li>
+                    {% for post in group.items %}
+                        {% assign p_sub = post.categories[1] | default: post.subcategory %}
+                        {% if p_sub == sc %}
+                        <li class="chapter {% if page.url == post.url %}active{% endif %}" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
+                            <a href="{{site.baseurl}}{{post.url}}" onclick="pageScrollToTop(this)" style="padding-left: 35px; font-size: 0.95em;">
+                                {{ post.title | escape }}
+                            </a>
+                            {% if site.toc.enabled and page.url == post.url %}
+                                {% include toc.html html=content h_min=site.toc.h_min h_max=site.toc.h_max %}
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                    {% endfor %}
                     {% endfor %}
                 {% endif %}
             {% endfor %}

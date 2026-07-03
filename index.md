@@ -69,7 +69,7 @@ title: Home
 
     /* 하위 카테고리 스타일 */
     .subcat-container {
-        display: flex; justify-content: center; flex-wrap: wrap; gap: 6px;
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
         margin-top: 12px;
         padding-top: 12px;
         border-top: 1px dashed #e9ecef;
@@ -79,6 +79,13 @@ title: Home
         from { opacity: 0; transform: translateY(-5px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    .subcat-row {
+        display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 6px; width: 100%;
+    }
+    .subcat-label {
+        font-size: 11px; color: #868e96; font-weight: 700; text-transform: uppercase; margin-right: 8px;
+        letter-spacing: 0.5px;
+    }
     .subcat-btn {
         background: #f8f9fa; border: 1px solid #ced4da;
         padding: 4px 12px; border-radius: 16px;
@@ -87,6 +94,15 @@ title: Home
     }
     .subcat-btn:hover { background: #e9ecef; }
     .subcat-btn.active { background: #495057; color: white; border-color: #495057; font-weight: 600; }
+
+    .year-btn {
+        background: #f8f9fa; border: 1px solid #ced4da;
+        padding: 4px 12px; border-radius: 16px;
+        cursor: pointer; font-size: 13px; color: #495057; font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .year-btn:hover { background: #e9ecef; }
+    .year-btn.active { background: #339af0; color: white; border-color: #339af0; font-weight: 600; }
 
     /* 3. 게시글 리스트 */
     .post-list { min-height: 300px; } /* 필터링 시 높이 흔들림 방지 */
@@ -203,25 +219,47 @@ title: Home
                         {% endunless %}
                     {% endif %}
                 {% endfor %}
+
+                {% assign years = "" | split: "" %}
+                {% for post in site.posts %}
+                    {% assign p_top = post.categories | first | default: post.category %}
+                    {% if p_top == category_name %}
+                        {% assign p_year = post.date | date: "%Y" %}
+                        {% unless years contains p_year %}
+                            {% assign years = years | push: p_year %}
+                        {% endunless %}
+                    {% endif %}
+                {% endfor %}
                 
-                {% if sub_cats.size > 0 %}
+                {% if sub_cats.size > 0 or years.size > 0 %}
                     <nav class="subcat-container" id="subcat-{{ category_name | replace: ' ', '-' }}" style="display: none;">
-                        <button class="subcat-btn active" onclick="filterSubcategory('{{ category_name }}', 'all', this)">
-                            전체 (All)
-                        </button>
-                        {% for sc in sub_cats %}
-                            {% assign sc_count = 0 %}
-                            {% for post in site.posts %}
-                                {% assign p_top = post.categories | first | default: post.category %}
-                                {% assign p_sub = post.categories[1] | default: post.subcategory %}
-                                {% if p_top == category_name and p_sub == sc %}
-                                    {% assign sc_count = sc_count | plus: 1 %}
-                                {% endif %}
-                            {% endfor %}
-                            <button class="subcat-btn" onclick="filterSubcategory('{{ category_name }}', '{{ sc }}', this)">
-                                {{ sc }} ({{ sc_count }})
+                        {% if sub_cats.size > 0 %}
+                        <div class="subcat-row">
+                            <span class="subcat-label">Topic:</span>
+                            <button class="subcat-btn active" onclick="filterSubcategory('{{ category_name }}', 'all', this)">
+                                전체 (All)
                             </button>
-                        {% endfor %}
+                            {% for sc in sub_cats %}
+                                <button class="subcat-btn" onclick="filterSubcategory('{{ category_name }}', '{{ sc }}', this)">
+                                    {{ sc }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        {% if years.size > 0 %}
+                        <div class="subcat-row" style="margin-top: 8px;">
+                            <span class="subcat-label">Year:</span>
+                            <button class="year-btn active" onclick="filterYear('{{ category_name }}', 'all', this)">
+                                전체 (All)
+                            </button>
+                            {% for yr in years %}
+                                <button class="year-btn" onclick="filterYear('{{ category_name }}', '{{ yr }}', this)">
+                                    {{ yr }}년
+                                </button>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </nav>
                 {% endif %}
             {% endfor %}
@@ -232,7 +270,8 @@ title: Home
         {% for post in site.posts %}
         {% assign p_top = post.categories | first | default: post.category %}
         {% assign p_sub = post.categories[1] | default: post.subcategory | default: '' %}
-        <article class="post-item" data-top-category="{{ p_top }}" data-subcategory="{{ p_sub }}">
+        {% assign p_year = post.date | date: "%Y" %}
+        <article class="post-item" data-top-category="{{ p_top }}" data-subcategory="{{ p_sub }}" data-year="{{ p_year }}">
             <div class="post-meta">
                 <span class="post-category-tag">
                     {{ p_top | upcase }}{% if p_sub != '' %} / {{ p_sub | upcase }}{% endif %}
@@ -256,9 +295,40 @@ title: Home
 </div>
 
 <script>
-    function filterPosts(category, btnElement) {
+    var activeFilters = {
+        top: 'all',
+        sub: 'all',
+        year: 'all'
+    };
+
+    function applyFilters() {
         var posts = document.getElementsByClassName('post-item');
-        
+        for (var i = 0; i < posts.length; i++) {
+            var el = posts[i];
+            var postTop = el.getAttribute('data-top-category');
+            var postSub = el.getAttribute('data-subcategory');
+            var postYear = el.getAttribute('data-year');
+            
+            var matchTop = (activeFilters.top === 'all' || postTop === activeFilters.top);
+            var matchSub = (activeFilters.sub === 'all' || postSub === activeFilters.sub);
+            var matchYear = (activeFilters.year === 'all' || postYear === activeFilters.year);
+            
+            if (matchTop && matchSub && matchYear) {
+                el.classList.remove('hidden');
+                setTimeout((function(e) { return function() { e.style.opacity = '1'; e.style.transform = 'translateY(0)'; }; })(el), 50);
+            } else {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.classList.add('hidden');
+            }
+        }
+    }
+
+    function filterPosts(category, btnElement) {
+        activeFilters.top = category;
+        activeFilters.sub = 'all';
+        activeFilters.year = 'all';
+
         // 상위 카테고리 버튼 활성화 스타일 변경
         var buttons = document.getElementsByClassName('cat-btn');
         for (var i = 0; i < buttons.length; i++) {
@@ -272,12 +342,14 @@ title: Home
             subcatContainers[i].style.display = 'none';
         }
 
-        // 선택된 카테고리에 하위 카테고리가 있다면 표시하고 '전체' 버튼 활성화
+        // 선택된 카테고리에 하위 카테고리가 있다면 표시하고 sub/year 버튼 활성화 상태 초기화
         if (category !== 'all') {
             var targetSubcatId = 'subcat-' + category.replace(/\s+/g, '-');
             var activeSubcat = document.getElementById(targetSubcatId);
             if (activeSubcat) {
                 activeSubcat.style.display = 'flex';
+                
+                // Topic 버튼들 중 첫 번째 버튼(전체) 활성화
                 var subBtns = activeSubcat.getElementsByClassName('subcat-btn');
                 for (var j = 0; j < subBtns.length; j++) {
                     subBtns[j].classList.remove('active');
@@ -285,50 +357,46 @@ title: Home
                 if (subBtns.length > 0) {
                     subBtns[0].classList.add('active');
                 }
+
+                // Year 버튼들 중 첫 번째 버튼(전체) 활성화
+                var yrBtns = activeSubcat.getElementsByClassName('year-btn');
+                for (var k = 0; k < yrBtns.length; k++) {
+                    yrBtns[k].classList.remove('active');
+                }
+                if (yrBtns.length > 0) {
+                    yrBtns[0].classList.add('active');
+                }
             }
         }
 
-        // 게시글 필터링 로직 (상위 카테고리 기준)
-        for (var i = 0; i < posts.length; i++) {
-            var postTopCat = posts[i].getAttribute('data-top-category');
-            var el = posts[i];
-            
-            if (category === 'all' || postTopCat === category) {
-                el.classList.remove('hidden');
-                setTimeout((function(e) { return function() { e.style.opacity = '1'; e.style.transform = 'translateY(0)'; }; })(el), 50);
-            } else {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.classList.add('hidden');
-            }
-        }
+        applyFilters();
     }
 
     function filterSubcategory(topCategory, subCategory, btnElement) {
-        var posts = document.getElementsByClassName('post-item');
-        
-        // 하위 카테고리 버튼 활성화 스타일 변경
-        var subcatContainer = btnElement.parentElement;
-        var subBtns = subcatContainer.getElementsByClassName('subcat-btn');
+        activeFilters.sub = subCategory;
+
+        // 하위 카테고리(Topic) 버튼 활성화 스타일 변경
+        var row = btnElement.parentElement;
+        var subBtns = row.getElementsByClassName('subcat-btn');
         for (var i = 0; i < subBtns.length; i++) {
             subBtns[i].classList.remove('active');
         }
         btnElement.classList.add('active');
 
-        // 게시글 필터링 로직 (상위 + 하위 카테고리 기준)
-        for (var i = 0; i < posts.length; i++) {
-            var postTopCat = posts[i].getAttribute('data-top-category');
-            var postSubCat = posts[i].getAttribute('data-subcategory');
-            var el = posts[i];
-            
-            if (postTopCat === topCategory && (subCategory === 'all' || postSubCat === subCategory)) {
-                el.classList.remove('hidden');
-                setTimeout((function(e) { return function() { e.style.opacity = '1'; e.style.transform = 'translateY(0)'; }; })(el), 50);
-            } else {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.classList.add('hidden');
-            }
+        applyFilters();
+    }
+
+    function filterYear(topCategory, year, btnElement) {
+        activeFilters.year = year;
+
+        // 하위 카테고리(Year) 버튼 활성화 스타일 변경
+        var row = btnElement.parentElement;
+        var yrBtns = row.getElementsByClassName('year-btn');
+        for (var i = 0; i < yrBtns.length; i++) {
+            yrBtns[i].classList.remove('active');
         }
+        btnElement.classList.add('active');
+
+        applyFilters();
     }
 </script>

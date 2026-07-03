@@ -2,7 +2,7 @@
 title: ROS2 Nav2 with htop
 author: Chaewon Kim
 date: 2025-12-23
-category: Experiment
+categories: [Experiment, ROS2]
 layout: post
 ---
 

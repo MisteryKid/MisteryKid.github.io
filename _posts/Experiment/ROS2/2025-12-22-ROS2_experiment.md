@@ -2,7 +2,7 @@
 title: ROS2 communication overhead 
 author: Chaewon Kim
 date: 2025-12-22
-category: Experiment
+categories: [Experiment, ROS2]
 layout: post
 ---
 

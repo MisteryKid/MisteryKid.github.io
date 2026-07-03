@@ -473,8 +473,8 @@
     /* 코드 블록 스타일 확장 (복사 버튼 & 언어 배지) */
     pre.highlight {
         position: relative !important;
-        padding-top: 28px !important;
-        padding-bottom: 28px !important; /* 아래 복사 버튼과 겹침 방지 */
+        padding-top: 36px !important;
+        padding-bottom: 12px !important;
     }
     
     .code-lang-badge {
@@ -495,12 +495,13 @@
 
     .code-copy-btn {
         position: absolute;
-        bottom: 8px; /* 우측 하단 배치 */
+        top: 8px; /* 우측 상단 배치 */
         right: 10px;
         padding: 4px 10px;
         border-radius: 6px;
-        background: rgba(0, 0, 0, 0.04);
-        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.85); /* 코드 텍스트와 겹칠 때 가독성을 보장하기 위해 배경 설정 */
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         color: #868e96;
         font-size: 11px;
         font-weight: 600;
@@ -510,6 +511,7 @@
         align-items: center;
         gap: 5px;
         font-family: -apple-system, sans-serif;
+        z-index: 5;
     }
     .code-copy-btn:hover {
         background: #339af0; /* 호버 시 파란색 배경 전환 */
@@ -519,8 +521,8 @@
         transform: translateY(-1px);
     }
     body[data-theme="dark"] .code-copy-btn {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(30, 30, 34, 0.85);
+        border-color: rgba(255, 255, 255, 0.12);
         color: #a6a7ab;
     }
     body[data-theme="dark"] .code-copy-btn:hover {

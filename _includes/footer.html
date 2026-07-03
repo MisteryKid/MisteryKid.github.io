@@ -57,6 +57,23 @@
         font-family: "Pretendard", -apple-system, sans-serif;
     }
 
+    /* 홈 화면 등 markdown-section 내부 렌더링 시 외부 흰색 테두리 여백 제거 */
+    .markdown-section .blog-footer {
+        margin-left: -40px !important;
+        margin-right: -40px !important;
+        margin-bottom: -40px !important;
+        width: calc(100% + 80px) !important;
+    }
+
+    @media (max-width: 600px) {
+        .markdown-section .blog-footer {
+            margin-left: -15px !important;
+            margin-right: -15px !important;
+            margin-bottom: -20px !important;
+            width: calc(100% + 30px) !important;
+        }
+    }
+
     .footer-content {
         max-width: 800px;
         margin: 0 auto;
@@ -456,7 +473,8 @@
     /* 코드 블록 스타일 확장 (복사 버튼 & 언어 배지) */
     pre.highlight {
         position: relative !important;
-        padding-top: 36px !important;
+        padding-top: 28px !important;
+        padding-bottom: 28px !important; /* 아래 복사 버튼과 겹침 방지 */
     }
     
     .code-lang-badge {
@@ -477,9 +495,9 @@
 
     .code-copy-btn {
         position: absolute;
-        top: 6px;
+        bottom: 8px; /* 우측 하단 배치 */
         right: 10px;
-        padding: 4px 8px;
+        padding: 4px 10px;
         border-radius: 6px;
         background: rgba(0, 0, 0, 0.04);
         border: 1px solid rgba(0, 0, 0, 0.08);
@@ -487,26 +505,29 @@
         font-size: 11px;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
         font-family: -apple-system, sans-serif;
     }
     .code-copy-btn:hover {
-        background: #212529;
-        color: #ffffff;
-        border-color: #212529;
+        background: #339af0; /* 호버 시 파란색 배경 전환 */
+        color: #ffffff !important;
+        border-color: #339af0;
+        box-shadow: 0 4px 12px rgba(51, 154, 240, 0.25);
+        transform: translateY(-1px);
     }
     body[data-theme="dark"] .code-copy-btn {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.05);
         border-color: rgba(255, 255, 255, 0.08);
         color: #a6a7ab;
     }
     body[data-theme="dark"] .code-copy-btn:hover {
-        background: #ffffff;
-        color: #1a1b1f;
-        border-color: #ffffff;
+        background: #339af0; /* 브랜드 일관성을 위한 동일 색상 호버 */
+        color: #ffffff !important;
+        border-color: #339af0;
+        box-shadow: 0 4px 12px rgba(51, 154, 240, 0.4);
     }
 </style>
 

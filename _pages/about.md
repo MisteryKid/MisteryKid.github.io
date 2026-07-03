@@ -47,7 +47,24 @@ permalink: /about/
     .timeline-item.active .timeline-date {
         color: #339af0;
     }
+    .back-home-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        font-size: 14px; font-weight: 600; color: #868e96 !important;
+        text-decoration: none !important;
+        transition: color 0.2s ease, transform 0.2s ease;
+        margin-bottom: 20px;
+    }
+    .back-home-btn:hover {
+        color: #212529 !important;
+        transform: translateX(-4px);
+    }
 </style>
+
+<div style="margin-top: 10px;">
+    <a href="/" class="back-home-btn">
+        ← 홈으로 돌아가기 (Back to Home)
+    </a>
+</div>
 
 <div class="about-profile" style="margin-bottom: 60px; font-family: 'Pretendard', sans-serif;">
     <h1 style="font-size: 2.2rem; font-weight: 800; color: #212529; margin-bottom: 20px; letter-spacing: -1px;">

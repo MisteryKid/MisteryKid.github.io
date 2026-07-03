@@ -105,9 +105,9 @@ title: Home
     /* 리스트 컨트롤 & 페이지네이션 스타일 */
     .list-controls {
         display: flex; justify-content: space-between; align-items: center;
-        margin-bottom: 20px; margin-top: 10px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #f1f3f5;
+        margin-top: 20px; margin-bottom: 20px;
+        padding-top: 12px;
+        border-top: 1px solid #f1f3f5;
         font-size: 14px; color: #868e96;
         font-family: -apple-system, sans-serif;
     }
@@ -177,28 +177,6 @@ title: Home
         .profile-img { width: 100px; height: 100px; }
     }
 
-
-    .about-me-badge-btn {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 8px 18px; border-radius: 30px;
-        background: linear-gradient(135deg, #212529 0%, #495057 100%);
-        color: white !important; font-size: 13.5px; font-weight: 700;
-        text-decoration: none !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        margin-top: 10px;
-        margin-bottom: 5px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .about-me-badge-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(51, 154, 240, 0.3);
-        background: linear-gradient(135deg, #339af0 0%, #228be6 100%);
-    }
-    .about-me-badge-btn .badge-icon {
-        font-size: 15px;
-    }
-
     .cat-btn span.count {
         font-weight: 400; /* 숫자만 폰트 굵기를 가늘게 */
         opacity: 0.7;    /* 약간 투명하게 */
@@ -216,12 +194,6 @@ title: Home
             ROS2 · Linux <br>
             공부하고 기록하는 공간.
         </p>
-
-        <div style="margin-top: 5px; margin-bottom: 20px;">
-            <a href="/about/" class="about-me-badge-btn">
-                <span class="badge-icon">👤</span> 나를 소개합니다 (About Me) →
-            </a>
-        </div>
 
         <div class="social-links">
             <a href="https://github.com/misterykid" target="_blank" class="social-btn" title="GitHub">
@@ -334,19 +306,6 @@ title: Home
         </div>
     </div>
 
-    <div class="list-controls">
-        <div class="post-count-info" id="postCountInfo">Showing 1-10 of {{ site.posts | size }} posts</div>
-        <div class="page-size-selector">
-            <label for="pageSizeSelect">페이지당 글: </label>
-            <select id="pageSizeSelect" onchange="changePageSize(this.value)">
-                <option value="5">5개씩 보기</option>
-                <option value="10" selected>10개씩 보기</option>
-                <option value="15">15개씩 보기</option>
-                <option value="20">20개씩 보기</option>
-            </select>
-        </div>
-    </div>
-
     <div class="post-list">
         {% for post in site.posts %}
         {% assign p_top = post.categories | first | default: post.category %}
@@ -371,6 +330,19 @@ title: Home
             </p>
         </article>
         {% endfor %}
+    </div>
+
+    <div class="list-controls">
+        <div class="post-count-info" id="postCountInfo">Showing 1-10 of {{ site.posts | size }} posts</div>
+        <div class="page-size-selector">
+            <label for="pageSizeSelect">페이지당 글: </label>
+            <select id="pageSizeSelect" onchange="changePageSize(this.value)">
+                <option value="5">5개씩 보기</option>
+                <option value="10" selected>10개씩 보기</option>
+                <option value="15">15개씩 보기</option>
+                <option value="20">20개씩 보기</option>
+            </select>
+        </div>
     </div>
 
     <div class="pagination-wrapper">

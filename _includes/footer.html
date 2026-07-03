@@ -173,8 +173,318 @@
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
 </div>
 
+<!-- 다크/라이트 모드 플로팅 버튼 -->
+<button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="테마 변경">
+    <span id="themeToggleIcon"></span>
+</button>
+
+<style>
+    /* 테마 트랜지션 애니메이션 */
+    body, .book-summary, .book-body, .body-inner, .page-wrapper, .page-inner, .markdown-section,
+    h1, h2, h3, p, a, button, select, input, pre, code, blockquote, .post-item, .cat-btn,
+    .subcat-btn, .year-btn, .page-num-btn, .list-controls {
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    /* 플로팅 버튼 스타일 */
+    .theme-toggle-btn {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        width: 45px;
+        height: 45px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        color: #212529;
+        border: 1px solid #eaecef;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.2s ease;
+    }
+    .theme-toggle-btn:hover {
+        transform: translateY(-5px);
+        background: #212529;
+        color: #ffffff;
+        border-color: #212529;
+    }
+    .theme-toggle-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+    }
+
+    /* --- 다크 모드 글로벌 스타일 --- */
+    body[data-theme="dark"], html[data-theme="dark"] {
+        background-color: #141517 !important;
+        color: #c1c2c5 !important;
+    }
+    
+    body[data-theme="dark"] .theme-toggle-btn {
+        background: rgba(37, 38, 43, 0.85);
+        border-color: #373a40;
+        color: #ffffff;
+    }
+    body[data-theme="dark"] .theme-toggle-btn:hover {
+        background: #ffffff;
+        color: #1a1b1f;
+        border-color: #ffffff;
+    }
+
+    body[data-theme="dark"] .book-summary {
+        background: #141517 !important;
+        border-right: 1px solid #2c2e33 !important;
+    }
+    body[data-theme="dark"] .book-summary .summary li.header {
+        background-color: #1a1b1f !important;
+        color: #909296 !important;
+        border-top: 1px solid #2c2e33 !important;
+        border-bottom: 1px solid #2c2e33 !important;
+    }
+    body[data-theme="dark"] .book-summary .summary li a {
+        color: #a6a7ab !important;
+    }
+    body[data-theme="dark"] .book-summary .summary li a:hover {
+        color: #ffffff !important;
+        background: #25262b !important;
+    }
+    body[data-theme="dark"] .book-summary .summary li.active > a {
+        color: #339af0 !important;
+        background: #25262b !important;
+        font-weight: 700;
+    }
+    body[data-theme="dark"] .book-summary .summary li.divider {
+        background: #2c2e33 !important;
+    }
+    body[data-theme="dark"] #book-search-input input {
+        background: #25262b !important;
+        border: 1px solid #373a40 !important;
+        color: #ffffff !important;
+    }
+    body[data-theme="dark"] #book-search-input-link a {
+        background: #25262b !important;
+        color: #a6a7ab !important;
+    }
+
+    body[data-theme="dark"] .book-body {
+        background: #1a1b1f !important;
+    }
+    body[data-theme="dark"] .body-inner {
+        background: #1a1b1f !important;
+    }
+    body[data-theme="dark"] .page-wrapper {
+        background: #1a1b1f !important;
+    }
+    body[data-theme="dark"] .page-inner {
+        background: #1a1b1f !important;
+        color: #c1c2c5 !important;
+    }
+    body[data-theme="dark"] .markdown-section {
+        background: #1a1b1f !important;
+        color: #c1c2c5 !important;
+    }
+    
+    body[data-theme="dark"] h1, 
+    body[data-theme="dark"] h2, 
+    body[data-theme="dark"] h3, 
+    body[data-theme="dark"] h4, 
+    body[data-theme="dark"] h5, 
+    body[data-theme="dark"] h6 {
+        color: #ffffff !important;
+    }
+    
+    body[data-theme="dark"] code {
+        background: #2c2e33 !important;
+        color: #ff8787 !important;
+    }
+    body[data-theme="dark"] pre {
+        background: #25262b !important;
+        border: 1px solid #373a40 !important;
+    }
+    body[data-theme="dark"] pre code {
+        background: transparent !important;
+        color: #c1c2c5 !important;
+    }
+
+    body[data-theme="dark"] blockquote {
+        background: #25262b !important;
+        border-left: 4px solid #373a40 !important;
+        color: #909296 !important;
+    }
+
+    /* 포스트 및 홈 커스텀 영역 */
+    body[data-theme="dark"] .blog-container {
+        background: #1a1b1f !important;
+    }
+    body[data-theme="dark"] .blog-title {
+        color: #ffffff !important;
+    }
+    body[data-theme="dark"] .blog-description {
+        color: #909296 !important;
+    }
+    body[data-theme="dark"] .social-btn {
+        background: #25262b !important;
+        border-color: #373a40 !important;
+        color: #c1c2c5 !important;
+    }
+    body[data-theme="dark"] .social-btn:hover {
+        background: #ffffff !important;
+        color: #1a1b1f !important;
+    }
+    body[data-theme="dark"] .cat-btn {
+        background: #25262b !important;
+        border-color: #373a40 !important;
+        color: #a6a7ab !important;
+    }
+    body[data-theme="dark"] .cat-btn:hover {
+        background: #2c2e33 !important;
+    }
+    body[data-theme="dark"] .cat-btn.active {
+        background: #ffffff !important;
+        color: #1a1b1f !important;
+        border-color: #ffffff !important;
+    }
+    body[data-theme="dark"] .subcat-btn, 
+    body[data-theme="dark"] .year-btn {
+        background: #25262b !important;
+        border-color: #373a40 !important;
+        color: #a6a7ab !important;
+    }
+    body[data-theme="dark"] .subcat-btn:hover, 
+    body[data-theme="dark"] .year-btn:hover {
+        background: #2c2e33 !important;
+    }
+    body[data-theme="dark"] .subcat-btn.active {
+        background: #a6a7ab !important;
+        color: #1a1b1f !important;
+        border-color: #a6a7ab !important;
+    }
+    body[data-theme="dark"] .year-btn.active {
+        background: #339af0 !important;
+        color: #ffffff !important;
+        border-color: #339af0 !important;
+    }
+    body[data-theme="dark"] .post-item {
+        border-bottom: 1px solid #2c2e33 !important;
+    }
+    body[data-theme="dark"] .post-title {
+        color: #ffffff !important;
+    }
+    body[data-theme="dark"] .post-title:hover {
+        color: #339af0 !important;
+    }
+    body[data-theme="dark"] .post-excerpt {
+        color: #909296 !important;
+    }
+    body[data-theme="dark"] .post-meta {
+        color: #5c5f66 !important;
+    }
+    body[data-theme="dark"] .list-controls {
+        border-top: 1px solid #2c2e33 !important;
+        color: #5c5f66 !important;
+    }
+    body[data-theme="dark"] .page-size-selector select {
+        background: #25262b !important;
+        border: 1px solid #373a40 !important;
+        color: #c1c2c5 !important;
+    }
+    body[data-theme="dark"] .page-num-btn {
+        background: #25262b !important;
+        border-color: #373a40 !important;
+        color: #a6a7ab !important;
+    }
+    body[data-theme="dark"] .page-num-btn:hover:not(.disabled):not(.active) {
+        background: #2c2e33 !important;
+    }
+    body[data-theme="dark"] .page-num-btn.active {
+        background: #ffffff !important;
+        color: #1a1b1f !important;
+        border-color: #ffffff !important;
+    }
+    body[data-theme="dark"] .page-num-btn.disabled {
+        color: #5c5f66 !important;
+        border-color: #2c2e33 !important;
+        background: #1e2022 !important;
+    }
+
+    /* 포스트 세부 페이지 레이아웃 대응 */
+    body[data-theme="dark"] .post-header {
+        border-bottom: 1px solid #2c2e33 !important;
+    }
+    body[data-theme="dark"] .post-container {
+        background: #1a1b1f !important;
+    }
+    body[data-theme="dark"] .post-footer {
+        border-top: 1px solid #2c2e33 !important;
+    }
+    body[data-theme="dark"] .book-header {
+        background: #141517 !important;
+        border-bottom: 1px solid #2c2e33 !important;
+        color: #ffffff !important;
+    }
+    body[data-theme="dark"] .book-header h1 a {
+        color: #ffffff !important;
+    }
+    body[data-theme="dark"] .book-header .btn {
+        color: #ffffff !important;
+    }
+    body[data-theme="dark"] .navigation-prev, 
+    body[data-theme="dark"] .navigation-next {
+        background: #141517 !important;
+        border-color: #2c2e33 !important;
+        color: #a6a7ab !important;
+    }
+    body[data-theme="dark"] .navigation-prev:hover, 
+    body[data-theme="dark"] .navigation-next:hover {
+        background: #1a1b1f !important;
+        color: #ffffff !important;
+    }
+</style>
+
 <script>
-    // 스크롤이 어느 정도 내려갔을 때만 버튼이 보이게 하는 센스!
+    // --- 다크/라이트 모드 스크립트 ---
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        updateThemeIcon(theme);
+    }
+
+    function updateThemeIcon(theme) {
+        var icon = document.getElementById('themeToggleIcon');
+        if (icon) {
+            if (theme === 'dark') {
+                // 해 아이콘 (라이트 모드로 전환하는 버튼)
+                icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+            } else {
+                // 달 아이콘 (다크 모드로 전환하는 버튼)
+                icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+            }
+        }
+    }
+
+    function toggleTheme() {
+        var currentTheme = localStorage.getItem('theme') || 'light';
+        var newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    }
+
+    // 초기 테마 적용 (플리커링 방지용)
+    (function() {
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setTheme(prefersDark ? 'dark' : 'light');
+        }
+    })();
+
+    // 스크롤 탑 버튼 보이기/숨기기
     window.onscroll = function() {
         const btn = document.getElementById('backToTop');
         if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {

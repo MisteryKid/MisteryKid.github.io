@@ -2,7 +2,7 @@
 title: 우분투 22.04 듀얼 모니터 화면 밝기 조절 스크립트 만들기
 author: Chaewon Kim
 date: 2026-03-01
-category: Daily
+categories: [Daily, Setting]
 layout: post
 ---
 

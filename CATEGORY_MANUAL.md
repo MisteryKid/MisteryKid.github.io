@@ -68,7 +68,12 @@
 MisteryKid.github.io/
 ├── _posts/
 │   ├── Daily/
-│   │   └── 2025-12-24-English.md
+│   │   ├── Setting/
+│   │   │   └── 2026-02-27-tmux.md        # categories: [Daily, Setting]
+│   │   ├── Life/
+│   │   │   └── 2025-12-24-English.md     # categories: [Daily, Life]
+│   │   └── Thoughts/
+│   │       └── 2026-02-27-Prompt.md      # categories: [Daily, Thoughts]
 │   ├── Robotics/
 │   │   ├── DDS_TEST/
 │   │   │   └── 2026-01-02-DDSexp.md      # categories: [Robotics, DDS_TEST]

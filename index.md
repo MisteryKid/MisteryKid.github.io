@@ -163,13 +163,13 @@ title: Home
 
     .post-meta { font-size: 14px; color: #868e96; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
     
-    /* 카테고리별 태그 색상 설정 */
-    .post-category-tag { font-weight: 700; font-size: 12px; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; color: #495057; background: #f1f3f5; } /* 기본 */
-    .post-item[data-top-category="Study"] .post-category-tag { color: #339af0; background: #e7f5ff; } /* 파란색 */
-    .post-item[data-top-category="Paper"] .post-category-tag { color: #845ef7; background: #f3f0ff; } /* 보라색 */
-    .post-item[data-top-category="Project"] .post-category-tag { color: #ff922b; background: #fff4e6; } /* 주황색 */
-    .post-item[data-top-category="Daily"] .post-category-tag { color: #20c997; background: #e6fcf5; } /* 민트/초록색 */
-    .post-item[data-top-category="Experiment"] .post-category-tag { color: #f03e3e; background: #fff5f5; } /* 빨간색 */
+    /* 카테고리별 태그 색상 설정 (대비 강화) */
+    .post-category-tag { font-weight: 700; font-size: 12px; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; color: #343a40; background: #f1f3f5; } /* 기본 */
+    .post-item[data-top-category="Study"] .post-category-tag { color: #1864ab; background: #e7f5ff; } /* 진한 파란색 */
+    .post-item[data-top-category="Paper"] .post-category-tag { color: #5f3dc4; background: #f3f0ff; } /* 진한 보라색 */
+    .post-item[data-top-category="Project"] .post-category-tag { color: #d9480f; background: #fff4e6; } /* 진한 주황색 */
+    .post-item[data-top-category="Daily"] .post-category-tag { color: #087f5b; background: #e6fcf5; } /* 진한 민트색 */
+    .post-item[data-top-category="Experiment"] .post-category-tag { color: #c92a2a; background: #fff5f5; } /* 진한 빨간색 */
     
     .post-title { font-size: 22px; font-weight: 700; color: #212529; text-decoration: none; margin-bottom: 10px; display: block; line-height: 1.35; transition: color 0.2s; }
     .post-title:hover { color: #339af0; }

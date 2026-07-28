@@ -1,16 +1,21 @@
 ---
-title: "[Paper] Anytime ROS 2, Timely Task Completion in Non-Preemptive Robotic Systems"
+title: "[RTAS'26] Anytime ROS 2, Timely Task Completion in Non-Preemptive Robotic Systems"
 author: Chaewon Kim
 date: 2026-07-28
 categories: [Paper, ROS2]
 layout: post
 ---
 
+## 작성중 
+
 > **논문 링크:** [https://ieeexplore.ieee.org/abstract/document/11558386](https://ieeexplore.ieee.org/abstract/document/11558386)  
-> **게재 연도 및 학회:** 20XX, Example Conference (ex. ICRA, IROS 등)
+
 
 ## 📌 TL;DR (한 줄 요약)
-- 이 논문이 풀고자 하는 핵심 문제와 제안하는 해결책을 1~2줄로 요약합니다. (예: 기존 A 모델의 속도 저하 문제를 해결하기 위해 B 아키텍처를 도입하여 정확도 손실 없이 추론 속도를 2배 향상시킴)
+- ROS 2의 User space scedulaer인 Executor는 비선점형 알고리즘을 지니고 있어 AI와 같인 긴 연산시간을 가진 task가 있을 경우, 다른 작업들이 밀리는 현상 관측 
+- 이는 자율주행과 같은 Real-time System에서 중요한 작업이 밀릴 경우 사고를 일으킬 수 있음 
+- 긴 연산시간을 가진 작업을 subtask로 작게 쪼개서 각 단계 사이에 스케줄링 포인트를 삽입하는 Anytime 알고리즘 기법을 제안
+- 이를 통해 AI 연산 중 다른 작업이 점유할 수 있도록 구성 
 
 ---
 

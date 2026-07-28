@@ -192,22 +192,33 @@ title: Home
     /* Search Modal */
     .search-modal {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(255, 255, 255, 0.97);
-        backdrop-filter: blur(5px);
+        background: rgba(0, 0, 0, 0.5); /* 회색 반투명 오버레이 */
         z-index: 9999;
         display: none;
         opacity: 0;
         transition: opacity 0.3s ease;
-        padding-top: 100px;
     }
     .search-modal.active { display: block; opacity: 1; }
-    .search-modal-container { max-width: 600px; margin: 0 auto; padding: 0 20px; }
-    .search-header-m { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #212529; padding-bottom: 10px; margin-bottom: 30px; }
-    .search-input { flex: 1; border: none; outline: none; font-size: 24px; font-weight: 700; color: #212529; background: transparent; }
+    
+    .search-modal-content {
+        position: absolute; top: 0; left: 0; width: 100%; height: 40vh; /* 화면의 약 5분의 2 */
+        background: #ffffff; /* 색상이 있는(또는 흰색) 솔리드 배경 */
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        padding-top: 50px;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+        display: flex; flex-direction: column;
+    }
+    .search-modal.active .search-modal-content { transform: translateY(0); }
+
+    .search-modal-container { max-width: 650px; margin: 0 auto; padding: 0 20px; width: 100%; display: flex; flex-direction: column; height: 100%; }
+    .search-header-m { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #212529; padding-bottom: 10px; margin-bottom: 20px; flex-shrink: 0; }
+    .search-input { flex: 1; border: none; outline: none; font-size: 26px; font-weight: 700; color: #212529; background: transparent; }
     .search-input::placeholder { color: #adb5bd; }
-    .search-close-btn { background: none; border: none; font-size: 32px; cursor: pointer; color: #868e96; transition: color 0.2s; }
+    .search-close-btn { background: none; border: none; font-size: 34px; cursor: pointer; color: #868e96; transition: color 0.2s; padding: 0; line-height: 1; }
     .search-close-btn:hover { color: #212529; }
-    .search-results { max-height: 60vh; overflow-y: auto; }
+    
+    .search-results { flex: 1; overflow-y: auto; padding-bottom: 30px; }
     .search-result-item { display: block; padding: 15px 0; border-bottom: 1px solid #eaecef; text-decoration: none; }
     .search-result-item:hover .search-result-title { color: #339af0; }
     .search-result-title { font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 5px; transition: color 0.2s; }
@@ -218,13 +229,15 @@ title: Home
 <div class="blog-container">
 
     <!-- Search Modal Overlay -->
-    <div class="search-modal" id="searchModal">
-        <div class="search-modal-container">
-            <div class="search-header-m">
-                <input type="text" class="search-input" id="searchInput" placeholder="검색어를 입력하세요..." onkeyup="performSearch()">
-                <button class="search-close-btn" onclick="closeSearchModal()">&times;</button>
+    <div class="search-modal" id="searchModal" onclick="if(event.target === this) closeSearchModal();">
+        <div class="search-modal-content">
+            <div class="search-modal-container">
+                <div class="search-header-m">
+                    <input type="text" class="search-input" id="searchInput" placeholder="검색어를 입력하세요..." onkeyup="performSearch()">
+                    <button class="search-close-btn" onclick="closeSearchModal()">&times;</button>
+                </div>
+                <div class="search-results" id="searchResults"></div>
             </div>
-            <div class="search-results" id="searchResults"></div>
         </div>
     </div>
 

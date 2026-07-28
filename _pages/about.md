@@ -100,6 +100,11 @@ permalink: /about/
         <div class="timeline-date">2025.12</div>
         <div class="timeline-content"> NOSLAB 인턴 시작 🤖</div>
     </div>
+
+    <div class="timeline-item active">
+        <div class="timeline-date">2026.3</div>
+        <div class="timeline-content"> NOSLAB 학부연구생 시작 🤖</div>
+    </div>
 </div>
 
 <section style="margin-top: 60px;">
@@ -199,7 +204,7 @@ permalink: /about/
         <div style="display: flex; align-items: center; gap: 12px;">
             <span style="font-size: 20px;">✉️</span>
             <a href="mailto:your_email@gmail.com" style="font-size: 16px; color: #339af0; text-decoration: none; font-weight: 500;">
-                abade3@dgu.ac.kr
+                2023112451@dgu.ac.kr
             </a>
         </div>
 

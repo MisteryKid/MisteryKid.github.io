@@ -189,9 +189,44 @@ title: Home
         margin-left: 2px;
     }
 
+    /* Search Modal */
+    .search-modal {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(5px);
+        z-index: 9999;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        padding-top: 100px;
+    }
+    .search-modal.active { display: block; opacity: 1; }
+    .search-modal-container { max-width: 600px; margin: 0 auto; padding: 0 20px; }
+    .search-header-m { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #212529; padding-bottom: 10px; margin-bottom: 30px; }
+    .search-input { flex: 1; border: none; outline: none; font-size: 24px; font-weight: 700; color: #212529; background: transparent; }
+    .search-input::placeholder { color: #adb5bd; }
+    .search-close-btn { background: none; border: none; font-size: 32px; cursor: pointer; color: #868e96; transition: color 0.2s; }
+    .search-close-btn:hover { color: #212529; }
+    .search-results { max-height: 60vh; overflow-y: auto; }
+    .search-result-item { display: block; padding: 15px 0; border-bottom: 1px solid #eaecef; text-decoration: none; }
+    .search-result-item:hover .search-result-title { color: #339af0; }
+    .search-result-title { font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 5px; transition: color 0.2s; }
+    .search-result-date { font-size: 13px; color: #868e96; }
+
 </style>
 
 <div class="blog-container">
+
+    <!-- Search Modal Overlay -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-container">
+            <div class="search-header-m">
+                <input type="text" class="search-input" id="searchInput" placeholder="검색어를 입력하세요..." onkeyup="performSearch()">
+                <button class="search-close-btn" onclick="closeSearchModal()">&times;</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+    </div>
 
     <nav class="top-nav">
         <a href="/" class="nav-logo">MisteryKid</a>
@@ -199,7 +234,7 @@ title: Home
             <a href="/about/" class="nav-link">About</a>
             <a href="https://github.com/misterykid" target="_blank" class="nav-link">GitHub</a>
             <a href="mailto:your_email@gmail.com" class="nav-link">Email</a>
-            <a href="/search/" class="nav-link">Search</a>
+            <a href="#" class="nav-link" onclick="openSearchModal(event)">Search</a>
         </div>
     </nav>
 
@@ -217,7 +252,20 @@ title: Home
                 ALL ({{ site.posts | size }})
             </button>
             
+            {% assign predefined_cats = "Paper,Study,Daily,Experiment,Project" | split: "," %}
             {% assign top_cats = "" | split: "" %}
+            
+            {% for pre in predefined_cats %}
+                {% for post in site.posts %}
+                    {% assign p_top = post.categories | first | default: post.category %}
+                    {% if p_top == pre %}
+                        {% unless top_cats contains p_top %}
+                            {% assign top_cats = top_cats | push: p_top %}
+                        {% endunless %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
             {% for post in site.posts %}
                 {% assign p_top = post.categories | first | default: post.category %}
                 {% if p_top and p_top != "" %}
@@ -565,6 +613,52 @@ title: Home
         btnElement.classList.add('active');
 
         applyFilters();
+    }
+
+    var searchData = [
+      {% for post in site.posts %}
+      {
+        "title": "{{ post.title | escape }}",
+        "url": "{{ post.url | relative_url }}",
+        "date": "{{ post.date | date: '%Y-%m-%d' }}"
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ];
+
+    function openSearchModal(e) {
+        if(e) e.preventDefault();
+        document.getElementById('searchModal').classList.add('active');
+        document.getElementById('searchInput').focus();
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSearchModal() {
+        document.getElementById('searchModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function performSearch() {
+        var query = document.getElementById('searchInput').value.toLowerCase();
+        var resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = '';
+        if (!query) return;
+
+        var matched = searchData.filter(function(post) {
+            return post.title.toLowerCase().indexOf(query) !== -1;
+        });
+
+        if (matched.length === 0) {
+            resultsContainer.innerHTML = '<div style="color:#868e96; padding: 20px 0; text-align: center;">검색 결과가 없습니다.</div>';
+            return;
+        }
+
+        matched.forEach(function(post) {
+            var el = document.createElement('a');
+            el.className = 'search-result-item';
+            el.href = post.url;
+            el.innerHTML = '<div class="search-result-title">' + post.title + '</div><div class="search-result-date">' + post.date + '</div>';
+            resultsContainer.appendChild(el);
+        });
     }
 </script>
 
